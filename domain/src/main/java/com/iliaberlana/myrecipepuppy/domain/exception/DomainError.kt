@@ -1,8 +1,7 @@
 package com.iliaberlana.myrecipepuppy.domain.exception
 
 sealed class DomainError : Exception() {
-    object NoMoreRecipesException : DomainError()
-    object IncorrectIngredientException : DomainError()
+    object NoRecipesException : DomainError()
 
     object NoExistFavoriteException : DomainError()
     object CantSaveRecipeInDBException : DomainError()

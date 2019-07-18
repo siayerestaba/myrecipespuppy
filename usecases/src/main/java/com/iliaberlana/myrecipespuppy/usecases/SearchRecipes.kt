@@ -8,5 +8,5 @@ import com.iliaberlana.myrecipepuppy.domain.exception.DomainError
 class SearchRecipes(
     private val recipeRepository: RecipeRepository
 ) {
-    suspend operator fun invoke(ingredients: String): Either<DomainError, List<Recipe>> = recipeRepository.searchRecipes(ingredients)
+    suspend operator fun invoke(ingredients: String, page: Int): Either<DomainError, List<Recipe>> = recipeRepository.searchRecipes(ingredients, page)
 }

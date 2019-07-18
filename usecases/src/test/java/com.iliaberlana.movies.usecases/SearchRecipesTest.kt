@@ -12,8 +12,8 @@ class SearchRecipesTest {
         val recipeRepository = mockk<RecipeRepository>(relaxed = true)
         val searchRecipes = SearchRecipes(recipeRepository)
 
-        searchRecipes("onion,garlic")
+        searchRecipes("onion,garlic", 10)
 
-        coVerify { recipeRepository.searchRecipes("onion,garlic") }
+        coVerify { recipeRepository.searchRecipes("onion,garlic", 10) }
     }
 }

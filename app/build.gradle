@@ -22,14 +22,45 @@ android {
     }
 }
 
+ext {
+    retrofit_version = '2.6.0'
+    koin_version = '2.0.1'
+    support_android = '28.0.0'
+    kotlinx_coroutines = '1.3.0-M2'
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation project(':domain')
+    implementation project(':usecases')
+
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'com.android.support:support-v4:28.0.0'
-    implementation 'com.android.support:recyclerview-v7:28.0.0'
-    implementation 'com.android.support:design:28.0.0'
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:${kotlinx_coroutines}"
+
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
+    implementation "com.squareup.okhttp3:logging-interceptor:4.0.0"
+
+    implementation "com.android.support:design:${support_android}"
+    implementation "com.android.support:support-v4:${support_android}"
+    implementation "com.android.support:appcompat-v7:${support_android}"
+    implementation "com.android.support:recyclerview-v7:${support_android}"
+
+    implementation "io.arrow-kt:arrow-core-data:0.9.0"
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
+
+    implementation "org.koin:koin-android:$koin_version"
+    implementation "org.koin:koin-android-scope:$koin_version"
+
     testImplementation 'junit:junit:4.12'
+    testImplementation "io.mockk:mockk:1.9.3"
+    testImplementation "org.koin:koin-test:$koin_version"
+    testImplementation "com.squareup.okhttp3:mockwebserver:4.0.1"
+    testImplementation 'com.willowtreeapps.assertk:assertk-jvm:0.18'
+    testImplementation "io.kotlintest:kotlintest-assertions-arrow:3.3.3"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:${kotlinx_coroutines}"
+
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
