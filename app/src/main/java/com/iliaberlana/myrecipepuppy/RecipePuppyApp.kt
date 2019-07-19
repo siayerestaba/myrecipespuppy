@@ -5,10 +5,13 @@ import com.iliaberlana.myrecipepuppy.domain.data.RecipeRepository
 import com.iliaberlana.myrecipepuppy.framework.RecipeRepositoryImpl
 import com.iliaberlana.myrecipepuppy.framework.remote.NetworkFactory
 import com.iliaberlana.myrecipepuppy.framework.remote.RecipeDataSource
+import com.iliaberlana.myrecipepuppy.ui.search.SearchRecipesActivity
+import com.iliaberlana.myrecipepuppy.ui.search.SearchRecipesPresenter
 import com.iliaberlana.myrecipespuppy.usecases.SearchRecipes
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 class RecipePuppyApp : Application() {
@@ -29,8 +32,8 @@ class RecipePuppyApp : Application() {
         single<RecipeRepository> { RecipeRepositoryImpl(get()) }
         single { SearchRecipes(get()) }
 
-        /*scope(named<SearchRecipesActivity>()) {
-            scoped { SearchRecipesPresenter() }
-        }*/
+        scope(named<SearchRecipesActivity>()) {
+            scoped { SearchRecipesPresenter(get()) }
+        }
     }
 }

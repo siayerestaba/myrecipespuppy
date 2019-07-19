@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">My Recipe Puppy</string>
+    <string name="emptyList">Don\'t have recipes for this ingredients. Please, try again.</string>
 </resources>
