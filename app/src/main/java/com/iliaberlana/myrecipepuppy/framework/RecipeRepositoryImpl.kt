@@ -4,15 +4,16 @@ import arrow.core.Either
 import com.iliaberlana.myrecipepuppy.domain.data.RecipeRepository
 import com.iliaberlana.myrecipepuppy.domain.entities.Recipe
 import com.iliaberlana.myrecipepuppy.domain.exception.DomainError
-import com.iliaberlana.myrecipepuppy.framework.remote.RecipeClientService
+import com.iliaberlana.myrecipepuppy.framework.remote.RecipeDataSource
 import com.iliaberlana.myrecipepuppy.framework.remote.model.toRecipe
 
 class RecipeRepositoryImpl(
-    private val recipeClientService: RecipeClientService
-) : RecipeRepository {
+    private val recipeDataSource: RecipeDataSource
+) : RecipeRepository
+{
     override suspend fun searchRecipes(ingredients: String, page: Int): Either<DomainError, List<Recipe>> {
         try {
-            val listRecipeRemote = recipeClientService.searchRecipes(ingredients, page)
+            val listRecipeRemote = recipeDataSource.searchRecipes(ingredients, page)
 
             if (listRecipeRemote.isEmpty()) return Either.left(DomainError.NoRecipesException)
 
