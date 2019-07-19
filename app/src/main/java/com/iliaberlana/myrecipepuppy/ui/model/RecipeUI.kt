@@ -5,6 +5,7 @@ data class RecipeUI (
     val ingredients : String,
     val imageUrl : String,
     val link : String,
-    val isFavorite : Boolean
+    val isFavorite : Boolean,
+    val hasLactose : Boolean
 ){
 }

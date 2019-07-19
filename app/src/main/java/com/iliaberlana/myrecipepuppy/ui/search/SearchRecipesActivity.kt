@@ -1,16 +1,21 @@
 package com.iliaberlana.myrecipepuppy.ui.search
 
 import android.os.Bundle
+import android.support.v7.widget.SearchView
 import android.support.v7.widget.StaggeredGridLayoutManager
 import com.iliaberlana.myrecipepuppy.R
 import com.iliaberlana.myrecipepuppy.domain.entities.Recipe
 import com.iliaberlana.myrecipepuppy.ui.BaseListActivity
 import kotlinx.android.synthetic.main.recycler_withprogressbar_andtext.*
 import org.koin.android.scope.currentScope
+import android.view.Menu
+import com.iliaberlana.myrecipepuppy.ui.commons.logDebug
 
-class SearchRecipesActivity : BaseListActivity(), SearchView {
+
+class SearchRecipesActivity : BaseListActivity(), SearchRecipeView {
     private val presenter: SearchRecipesPresenter by currentScope.inject()
 
+    private lateinit var searchView: SearchView
     private lateinit var adapter: RecipeAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,7 +27,7 @@ class SearchRecipesActivity : BaseListActivity(), SearchView {
     }
 
     private fun initializeRecyclerView() {
-        adapter = RecipeAdapter({presenter.renderMoreRecipes()})
+        adapter = RecipeAdapter({ presenter.renderMoreRecipes() })
 
         val layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
         layoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
@@ -31,9 +36,39 @@ class SearchRecipesActivity : BaseListActivity(), SearchView {
         recipes_recyclerview.layoutManager = layoutManager
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.search_menu, menu)
+
+        val searchItem = menu.findItem(R.id.search)
+        searchView = searchItem.actionView as SearchView
+        searchView.queryHint = getString(R.string.search_hint)
+        searching()
+
+        return true
+    }
+
+    private fun searching() {
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                // TODO Do your search
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                this.javaClass.name.logDebug("********* onQueryTextChange ${newText.length}")
+
+                if(newText.length > 3) {
+                    presenter.searchRecipesWithText(newText)
+                }
+
+                return false
+            }
+        })
+    }
+
     override fun onResume() {
         super.onResume()
-        presenter.view = this
+        presenter.recipeView = this
     }
 
     override fun onDestroy() {
