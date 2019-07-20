@@ -3,13 +3,15 @@ package com.iliaberlana.myrecipepuppy.ui.search
 import android.os.Bundle
 import android.support.v7.widget.SearchView
 import android.support.v7.widget.StaggeredGridLayoutManager
+import android.view.Menu
+import android.view.View
 import com.iliaberlana.myrecipepuppy.R
-import com.iliaberlana.myrecipepuppy.domain.entities.Recipe
 import com.iliaberlana.myrecipepuppy.ui.BaseListActivity
+import com.iliaberlana.myrecipepuppy.ui.commons.logDebug
+import com.iliaberlana.myrecipepuppy.ui.commons.toast
+import com.iliaberlana.myrecipepuppy.ui.model.RecipeUI
 import kotlinx.android.synthetic.main.recycler_withprogressbar_andtext.*
 import org.koin.android.scope.currentScope
-import android.view.Menu
-import com.iliaberlana.myrecipepuppy.ui.commons.logDebug
 
 
 class SearchRecipesActivity : BaseListActivity(), SearchRecipeView {
@@ -50,16 +52,15 @@ class SearchRecipesActivity : BaseListActivity(), SearchRecipeView {
     private fun searching() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                // TODO Do your search
-                return true
+                presenter.searchRecipesWithText(query)
+                
+                return false
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                this.javaClass.name.logDebug("********* onQueryTextChange ${newText.length}")
-
-                if(newText.length > 3) {
+                /*if(newText.length > 3) { // TODO No tiene sentido, no va a encontrar nada!!
                     presenter.searchRecipesWithText(newText)
-                }
+                }*/
 
                 return false
             }
@@ -77,12 +78,12 @@ class SearchRecipesActivity : BaseListActivity(), SearchRecipeView {
         super.onDestroy()
     }
 
-    override fun listRecipes(recipes: List<Recipe>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun listRecipes(recipes: List<RecipeUI>) {
+        adapter.addAll(recipes)
     }
 
     override fun cleanRecipes() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        adapter.clean()
     }
 
     override fun cleanSearchBar() {
@@ -90,22 +91,23 @@ class SearchRecipesActivity : BaseListActivity(), SearchRecipeView {
     }
 
     override fun hideLoading() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        recipes_progressbar.visibility = View.GONE
     }
 
     override fun showLoading() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        recipes_progressbar.visibility = View.VISIBLE
     }
 
     override fun showToastMessage(stringId: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        this.toast(this, resources.getString(stringId))
     }
 
     override fun showErrorCase(stringId: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        recipes_texterror.text = resources.getString(stringId)
+        recipes_texterror.visibility = View.VISIBLE
     }
 
     override fun hideErrorCase() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        recipes_texterror.visibility = View.GONE
     }
 }

@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">My Recipe Puppy</string>
 
-    <string name="emptyList">Don\'t have recipes for this ingredients. Please, try again.</string>
+    <string name="emptyList">Don\'t have recipes for this ingredients.\nPlease, try again.</string>
     <string name="noMoreRecipes">Don\'t have more recipes for this ingredients</string>
     <string name="noInternetConectionError">Please, check you Internet connection.</string>
-    <string name="unknownException">We had a problem. Please, try again.</string>
+    <string name="unknownException">There was an error.\nPlease, try again.</string>
 
     <string name="search">Search</string>
     <string name="search_hint">Search by ingredients</string>

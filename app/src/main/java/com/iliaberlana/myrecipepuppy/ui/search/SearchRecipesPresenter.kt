@@ -2,6 +2,7 @@ package com.iliaberlana.myrecipepuppy.ui.search
 
 import com.iliaberlana.myrecipepuppy.R
 import com.iliaberlana.myrecipepuppy.domain.exception.DomainError
+import com.iliaberlana.myrecipepuppy.ui.model.toRecipeUI
 import com.iliaberlana.myrecipespuppy.usecases.SearchRecipes
 import kotlinx.coroutines.*
 
@@ -38,8 +39,9 @@ class SearchRecipesPresenter(
                     is DomainError.NoInternetConnectionException -> showErrorMessage(R.string.noInternetConectionError)
                     is DomainError.UnknownException -> showErrorMessage(R.string.unknownException)
                 }
-            }, {
-
+            }, {listRecipes ->
+                recipeView?.hideErrorCase()
+                recipeView?.listRecipes(listRecipes.map {  it.toRecipeUI() })
             })
 
             recipeView?.hideLoading()
