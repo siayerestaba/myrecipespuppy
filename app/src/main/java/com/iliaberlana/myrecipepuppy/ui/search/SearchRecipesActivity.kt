@@ -1,18 +1,20 @@
 package com.iliaberlana.myrecipepuppy.ui.search
 
+import android.content.Intent
 import android.os.Bundle
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.SearchView
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.widget.SearchView
+import androidx.recyclerview.widget.RecyclerView
 import com.iliaberlana.myrecipepuppy.R
 import com.iliaberlana.myrecipepuppy.ui.commons.BaseListActivity
 import com.iliaberlana.myrecipepuppy.ui.commons.toast
+import com.iliaberlana.myrecipepuppy.ui.favorites.FavoriteRecipesActivity
 import com.iliaberlana.myrecipepuppy.ui.listrecipe.ListRecipeView
 import com.iliaberlana.myrecipepuppy.ui.model.RecipeUI
 import kotlinx.android.synthetic.main.recycler_withprogressbar_andtext.*
-import org.koin.android.scope.currentScope
+import org.koin.androidx.scope.currentScope
 
 
 class SearchRecipesActivity : BaseListActivity(), ListRecipeView {
@@ -81,7 +83,8 @@ class SearchRecipesActivity : BaseListActivity(), ListRecipeView {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item!!.itemId) {
             R.id.favorites -> {
-                // TODO (not implemented)
+                val intent = Intent(this, FavoriteRecipesActivity::class.java)
+                startActivity(intent)
             }
         }
 

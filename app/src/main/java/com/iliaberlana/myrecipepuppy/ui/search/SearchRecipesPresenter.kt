@@ -3,6 +3,7 @@ package com.iliaberlana.myrecipepuppy.ui.search
 import com.iliaberlana.myrecipepuppy.R
 import com.iliaberlana.myrecipepuppy.domain.exception.DomainError
 import com.iliaberlana.myrecipepuppy.ui.listrecipe.ListRecipeView
+import com.iliaberlana.myrecipepuppy.ui.model.RecipeUI
 import com.iliaberlana.myrecipepuppy.ui.model.toRecipeUI
 import com.iliaberlana.myrecipespuppy.usecases.SearchRecipes
 import kotlinx.coroutines.*
@@ -50,6 +51,10 @@ class SearchRecipesPresenter(
             isLoadingData = false
             recipeView?.hideLoading()
         }
+    }
+
+    fun addFavorite(recipeUI: RecipeUI) {
+
     }
 
     private fun showErrorMessage(stringIdError: Int) {

@@ -6,6 +6,9 @@
     <string name="noInternetConectionError">Please, check you Internet connection.</string>
     <string name="unknownException">There was an error.\nPlease, try again.</string>
 
+    <string name="favorite_title">My favorite recipes</string>
+    <string name="save_favorite">Save in favorites</string>
+
     <string name="emptyFavorites">Don\'t have any recipe saved</string>
 
     <string name="favorites">Show favorites</string>

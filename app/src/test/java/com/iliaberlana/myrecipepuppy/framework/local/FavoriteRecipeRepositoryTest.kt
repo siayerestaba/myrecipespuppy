@@ -4,7 +4,7 @@ import com.iliaberlana.myrecipepuppy.domain.entities.Recipe
 import com.iliaberlana.myrecipepuppy.domain.exception.DomainError
 import com.iliaberlana.myrecipepuppy.domain.exception.RoomError
 import com.iliaberlana.myrecipepuppy.framework.FavoriteRecipeRepositoryImpl
-import com.iliaberlana.myrecipepuppy.framework.local.model.RecipeDB
+import com.iliaberlana.myrecipepuppy.framework.local.model.RecipeDbEntity
 import io.kotlintest.assertions.arrow.either.shouldBeLeft
 import io.kotlintest.assertions.arrow.either.shouldBeRight
 import io.mockk.coEvery
@@ -15,12 +15,12 @@ import org.junit.Test
 
 class FavoriteRecipeRepositoryTest {
     private val recipeDao = mockk<RecipeDao>()
-    private val favoriteRecipeRepositoryImpl =
-        FavoriteRecipeRepositoryImpl(recipeDao)
+    private val favoriteRecipeRepositoryImpl = FavoriteRecipeRepositoryImpl(recipeDao)
 
     //@Test
     fun `call RecipeDao_insert when call saveFavorite`() = runBlocking {
-        val expected = RecipeDB(
+        val expected = RecipeDbEntity(
+            1,
             "Recipe title",
             "onion, garlic",
             "https://via.placeholder.com/150",
@@ -76,7 +76,8 @@ class FavoriteRecipeRepositoryTest {
         )
 
         coEvery { recipeDao.getAll() } returns listOf(
-            RecipeDB(
+            RecipeDbEntity(
+                1,
                 "Recipe title",
                 "onion, garlic",
                 "https://via.placeholder.com/150",

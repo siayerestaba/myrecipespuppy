@@ -1,17 +1,19 @@
 package com.iliaberlana.myrecipepuppy.framework.local
 
-import android.arch.persistence.room.Delete
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.Query
-import com.iliaberlana.myrecipepuppy.framework.local.model.RecipeDB
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.Query
+import com.iliaberlana.myrecipepuppy.framework.local.model.RecipeDbEntity
 
+@Dao
 interface RecipeDao {
-    @Query("SELECT * FROM recipedb")
-    suspend fun getAll(): List<RecipeDB>
+    @Query("SELECT * FROM RecipeDbEntity")
+    suspend fun getAll(): List<RecipeDbEntity>
 
     @Insert
-    suspend fun insert(recipeDB: RecipeDB)
+    suspend fun insert(recipeDbEntity: RecipeDbEntity)
 
     @Delete
-    suspend fun delete(user: RecipeDB)
+    suspend fun delete(user: RecipeDbEntity)
 }

@@ -1,8 +1,8 @@
 package com.iliaberlana.myrecipepuppy.ui.commons
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.iliaberlana.myrecipepuppy.R
 import com.iliaberlana.myrecipepuppy.ui.listrecipe.RecipeAdapter
 import kotlinx.android.synthetic.main.recycler_withprogressbar_andtext.*

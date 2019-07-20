@@ -1,4 +1,4 @@
-package com.iliaberlana.myrecipepuppy.ui.search
+package com.iliaberlana.myrecipepuppy.ui.favorites
 
 import com.iliaberlana.myrecipepuppy.R
 import com.iliaberlana.myrecipepuppy.domain.exception.DomainError

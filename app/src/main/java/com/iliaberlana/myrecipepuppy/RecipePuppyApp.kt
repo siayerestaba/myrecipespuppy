@@ -1,15 +1,21 @@
 package com.iliaberlana.myrecipepuppy
 
 import android.app.Application
+import androidx.room.Room
+import com.iliaberlana.myrecipepuppy.domain.data.FavoriteRecipeRepository
 import com.iliaberlana.myrecipepuppy.domain.data.RecipeRepository
+import com.iliaberlana.myrecipepuppy.framework.FavoriteRecipeRepositoryImpl
 import com.iliaberlana.myrecipepuppy.framework.RecipeRepositoryImpl
 import com.iliaberlana.myrecipepuppy.framework.local.RecipeDatabase
-import com.iliaberlana.myrecipepuppy.framework.FavoriteRecipeRepositoryImpl
+import com.iliaberlana.myrecipepuppy.framework.local.RecipeDb
 import com.iliaberlana.myrecipepuppy.framework.remote.NetworkFactory
 import com.iliaberlana.myrecipepuppy.framework.remote.RecipeRemoteDataSource
-import com.iliaberlana.myrecipepuppy.ui.search.FavoriteRecipesActivity
-import com.iliaberlana.myrecipepuppy.ui.search.FavoritesRecipesPresenter
+import com.iliaberlana.myrecipepuppy.ui.favorites.FavoriteRecipesActivity
+import com.iliaberlana.myrecipepuppy.ui.favorites.FavoritesRecipesPresenter
+import com.iliaberlana.myrecipepuppy.ui.search.SearchRecipesActivity
+import com.iliaberlana.myrecipepuppy.ui.search.SearchRecipesPresenter
 import com.iliaberlana.myrecipespuppy.usecases.SearchRecipes
+import com.iliaberlana.myrecipespuppy.usecases.ShowFavoriteRecipes
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -21,6 +27,8 @@ class RecipePuppyApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        RecipeDb.initializeDb(this)
 
         startKoin {
             androidLogger()
@@ -36,16 +44,15 @@ class RecipePuppyApp : Application() {
         single<RecipeRepository> { RecipeRepositoryImpl(get()) }
         single { SearchRecipes(get()) }
 
-        factory {
-            android.arch.persistence.room.Room.databaseBuilder(
-                androidApplication(),
-                com.iliaberlana.myrecipepuppy.framework.local.RecipeDatabase::class.java,
-                "recipe-db"
-            )
-                .build()
+        scope(named<SearchRecipesActivity>()) {
+            scoped { SearchRecipesPresenter(get()) }
         }
-        factory { get<RecipeDatabase>().recipeDao() }
-        single { FavoriteRecipeRepositoryImpl(get()) }
+
+        single {
+            Room.databaseBuilder(androidApplication(), RecipeDatabase::class.java, "recipe-db").build()
+        }
+        single<FavoriteRecipeRepository> { FavoriteRecipeRepositoryImpl(get<RecipeDatabase>().recipeDao()) }
+        single { ShowFavoriteRecipes(get()) }
 
         scope(named<FavoriteRecipesActivity>()) {
             scoped { FavoritesRecipesPresenter(get()) }

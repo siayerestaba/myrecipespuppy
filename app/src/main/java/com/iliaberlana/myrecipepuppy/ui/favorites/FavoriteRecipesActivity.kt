@@ -1,25 +1,40 @@
-package com.iliaberlana.myrecipepuppy.ui.search
+package com.iliaberlana.myrecipepuppy.ui.favorites
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.ActionBar
+import com.iliaberlana.myrecipepuppy.R
 import com.iliaberlana.myrecipepuppy.ui.commons.BaseListActivity
 import com.iliaberlana.myrecipepuppy.ui.commons.toast
 import com.iliaberlana.myrecipepuppy.ui.listrecipe.ListRecipeView
 import com.iliaberlana.myrecipepuppy.ui.model.RecipeUI
 import kotlinx.android.synthetic.main.recycler_withprogressbar_andtext.*
-import org.koin.android.scope.currentScope
+import org.koin.androidx.scope.currentScope
 
 
 class FavoriteRecipesActivity : BaseListActivity(), ListRecipeView {
     private val presenter: FavoritesRecipesPresenter by currentScope.inject()
 
+    private var actionbar: ActionBar? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        actionbar = supportActionBar
+        actionbar!!.setDisplayHomeAsUpEnabled(true)
+        actionbar!!.title = resources.getString(R.string.favorite_title)
+
+        presenter.renderFavoriteRecipes()
     }
 
     override fun onResume() {
         super.onResume()
         presenter.recipeView = this
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 
     override fun onDestroy() {

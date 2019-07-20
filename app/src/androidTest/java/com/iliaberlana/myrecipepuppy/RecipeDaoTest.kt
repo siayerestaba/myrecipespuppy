@@ -1,8 +1,8 @@
 package com.iliaberlana.myrecipepuppy
 
-import android.arch.persistence.room.Room
+import androidx.room.Room
 import com.iliaberlana.myrecipepuppy.framework.local.RecipeDatabase
-import com.iliaberlana.myrecipepuppy.framework.local.model.RecipeDB
+import com.iliaberlana.myrecipepuppy.framework.local.model.RecipeDbEntity
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.equalTo
 import org.junit.After
@@ -45,7 +45,7 @@ class RecipeDaoTest: KoinTest {
 
     @Test
     fun save_in_database_when_execute_save() = runBlocking {
-        val recipe = RecipeDB("name", "eggs, bacon", "https://via.placeholder.com/150","http://www.recipepuppy.com/150")
+        val recipe = RecipeDbEntity(1,"name", "eggs, bacon", "https://via.placeholder.com/150","http://www.recipepuppy.com/150")
 
         recipeDatabase.recipeDao().insert(recipe)
 

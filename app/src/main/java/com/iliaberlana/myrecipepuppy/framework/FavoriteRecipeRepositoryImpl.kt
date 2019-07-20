@@ -5,7 +5,7 @@ import com.iliaberlana.myrecipepuppy.domain.data.FavoriteRecipeRepository
 import com.iliaberlana.myrecipepuppy.domain.entities.Recipe
 import com.iliaberlana.myrecipepuppy.domain.exception.RoomError
 import com.iliaberlana.myrecipepuppy.framework.local.RecipeDao
-import com.iliaberlana.myrecipepuppy.framework.local.model.RecipeDB
+import com.iliaberlana.myrecipepuppy.framework.local.model.RecipeDbEntity
 import com.iliaberlana.myrecipepuppy.framework.local.model.toRecipe
 
 class FavoriteRecipeRepositoryImpl(
@@ -32,7 +32,7 @@ class FavoriteRecipeRepositoryImpl(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    private fun fromRecipeToRecipeDB(recipe: Recipe): RecipeDB {
-        return RecipeDB(recipe.name, recipe.ingredients, recipe.imageUrl, recipe.link)
+    private fun fromRecipeToRecipeDB(recipe: Recipe): RecipeDbEntity {
+        return RecipeDbEntity(1, recipe.name, recipe.ingredients, recipe.imageUrl, recipe.link) // TODO El ID no debería pasarlo
     }
 }

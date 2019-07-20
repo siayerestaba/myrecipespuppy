@@ -1,13 +1,13 @@
 package com.iliaberlana.myrecipepuppy.ui.commons
 
 import android.content.Context
-import android.support.annotation.LayoutRes
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.annotation.LayoutRes
 import com.bumptech.glide.Glide
 import com.iliaberlana.myrecipepuppy.R
 

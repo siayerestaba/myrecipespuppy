@@ -1,3 +1,5 @@
+package com.iliaberlana.myrecipepuppy.usecases
+
 import com.iliaberlana.myrecipepuppy.domain.data.RecipeRepository
 import com.iliaberlana.myrecipespuppy.usecases.SearchRecipes
 import io.mockk.coVerify

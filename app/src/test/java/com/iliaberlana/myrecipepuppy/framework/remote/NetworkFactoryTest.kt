@@ -114,7 +114,7 @@ class NetworkFactoryTest {
 
         mockWebServer.enqueue(response)
 
-        val actual = recipeClient!!.searchRecipes("onion,garlic", 1)
+        val actual = recipeClient.searchRecipes("onion,garlic", 1)
 
         assertThat(actual.title).isEqualTo("Recipe Puppy")
         assertThat(actual.version).isEqualTo("0.1")

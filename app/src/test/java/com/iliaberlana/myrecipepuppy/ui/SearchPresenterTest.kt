@@ -6,7 +6,6 @@ import com.iliaberlana.myrecipepuppy.domain.entities.Recipe
 import com.iliaberlana.myrecipepuppy.domain.exception.DomainError
 import com.iliaberlana.myrecipepuppy.ui.listrecipe.ListRecipeView
 import com.iliaberlana.myrecipepuppy.ui.model.RecipeUI
-import com.iliaberlana.myrecipepuppy.ui.search.FavoritesRecipesPresenter
 import com.iliaberlana.myrecipepuppy.ui.search.SearchRecipesPresenter
 import com.iliaberlana.myrecipespuppy.usecases.SearchRecipes
 import io.mockk.*
