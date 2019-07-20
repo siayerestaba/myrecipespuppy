@@ -1,5 +1,7 @@
 package com.iliaberlana.myrecipepuppy.ui.search
 
+import com.iliaberlana.myrecipepuppy.R
+import com.iliaberlana.myrecipepuppy.domain.exception.DomainError
 import com.iliaberlana.myrecipespuppy.usecases.SearchRecipes
 import kotlinx.coroutines.*
 
@@ -11,8 +13,12 @@ class SearchRecipesPresenter(
     var searchText: String = ""
 
     fun searchRecipesWithText(text: String) {
+        page = 1
         searchText = text
 
+        recipeView?.showLoading()
+
+        recipeView?.cleanRecipes()
         searchRecipes()
     }
 
@@ -24,7 +30,27 @@ class SearchRecipesPresenter(
 
     private fun searchRecipes() {
         GlobalScope.launch(Dispatchers.Main) {
-            withContext(Dispatchers.IO) { searchRecipes(searchText, page) }
+            val resultRecipes = withContext(Dispatchers.IO) { searchRecipes(searchText, page) }
+            resultRecipes.fold({
+                when(it) {
+                    is DomainError.NoRecipesException -> showErrorMessage(R.string.emptyList)
+                    is DomainError.NoMoreRecipesException -> showErrorMessage(R.string.noMoreRecipes)
+                    is DomainError.NoInternetConnectionException -> showErrorMessage(R.string.noInternetConectionError)
+                    is DomainError.UnknownException -> showErrorMessage(R.string.unknownException)
+                }
+            }, {
+
+            })
+
+            recipeView?.hideLoading()
+        }
+    }
+
+    private fun showErrorMessage(stringIdError: Int) {
+        if (page == 1) {
+            recipeView?.showErrorCase(stringIdError)
+        } else {
+            recipeView?.showToastMessage(stringIdError)
         }
     }
 
