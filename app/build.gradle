@@ -25,22 +25,13 @@ android {
     }
 }
 
-configurations.all {
-    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
-        def requested = details.requested
-        if (requested.group == "com.android.support") {
-            if (!requested.name.startsWith("multidex")) {
-                details.useVersion "26.+"
-            }
-        }
-    }
-}
 
 ext {
     retrofit_version = '2.6.0'
     koin_version = '2.0.1'
     support_android = '28.0.0'
     kotlinx_coroutines = '1.3.0-M2'
+    room_version = '1.1.1'
 }
 
 dependencies {
@@ -69,6 +60,10 @@ dependencies {
     implementation "org.koin:koin-android:$koin_version"
     implementation "org.koin:koin-android-scope:$koin_version"
 
+    implementation "android.arch.persistence.room:runtime:$room_version"
+    annotationProcessor "android.arch.persistence.room:compiler:$room_version"
+    testImplementation "android.arch.persistence.room:testing:$room_version"
+
     testImplementation 'junit:junit:4.12'
     testImplementation "io.mockk:mockk:1.9.3"
     testImplementation "org.koin:koin-test:$koin_version"
@@ -77,6 +72,7 @@ dependencies {
     testImplementation "io.kotlintest:kotlintest-assertions-arrow:3.3.3"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:${kotlinx_coroutines}"
 
+    androidTestImplementation "org.koin:koin-test:$koin_version"
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }

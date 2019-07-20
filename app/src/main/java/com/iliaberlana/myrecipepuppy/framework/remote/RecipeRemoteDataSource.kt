@@ -5,7 +5,7 @@ import com.iliaberlana.myrecipepuppy.framework.remote.model.RecipeRemote
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
-class RecipeDataSource : KoinComponent
+class RecipeRemoteDataSource : KoinComponent
 {
     private val URL_BASE = "http://www.recipepuppy.com"
     private val network : NetworkFactory by inject()

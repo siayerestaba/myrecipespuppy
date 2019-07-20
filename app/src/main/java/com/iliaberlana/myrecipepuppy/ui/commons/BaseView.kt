@@ -1,4 +1,4 @@
-package com.iliaberlana.myrecipepuppy.ui
+package com.iliaberlana.myrecipepuppy.ui.commons
 
 interface BaseView {
     fun hideLoading()

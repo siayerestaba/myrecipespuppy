@@ -2,6 +2,7 @@ package com.iliaberlana.myrecipepuppy.ui.search
 
 import com.iliaberlana.myrecipepuppy.R
 import com.iliaberlana.myrecipepuppy.domain.exception.DomainError
+import com.iliaberlana.myrecipepuppy.ui.listrecipe.ListRecipeView
 import com.iliaberlana.myrecipepuppy.ui.model.toRecipeUI
 import com.iliaberlana.myrecipespuppy.usecases.SearchRecipes
 import kotlinx.coroutines.*
@@ -9,7 +10,7 @@ import kotlinx.coroutines.*
 class SearchRecipesPresenter(
     private val searchRecipes: SearchRecipes
 ) {
-    var recipeView: SearchRecipeView? = null
+    var recipeView: ListRecipeView? = null
     var page: Int = 1
     var searchText: String = ""
     var isLoadingData = false

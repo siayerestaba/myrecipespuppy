@@ -1,4 +1,4 @@
-package com.iliaberlana.myrecipepuppy.ui.search
+package com.iliaberlana.myrecipepuppy.ui.listrecipe
 
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -20,6 +20,6 @@ class RecipeViewHolder(
         else containerView.recipe_image.loadImage(recipe.imageUrl)
 
         if(recipe.hasLactose) containerView.recipe_haslactose.visibility = View.VISIBLE
-        else  containerView.recipe_haslactose.visibility = View.GONE
+        else containerView.recipe_haslactose.visibility = View.GONE
     }
 }

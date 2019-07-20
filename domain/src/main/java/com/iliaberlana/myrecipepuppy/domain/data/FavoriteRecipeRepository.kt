@@ -1,11 +1,13 @@
 package com.iliaberlana.myrecipepuppy.domain.data
 
+import arrow.core.Either
 import com.iliaberlana.myrecipepuppy.domain.entities.Recipe
+import com.iliaberlana.myrecipepuppy.domain.exception.RoomError
 
 interface FavoriteRecipeRepository {
-    fun showFavorites()
+    suspend fun getFavorites(): Either<RoomError, List<Recipe>>
 
-    fun saveFavorite(recipe: Recipe)
+    suspend fun saveFavorite(recipe: Recipe)
 
-    fun deleteFavorite(recipe: Recipe)
+    suspend fun deleteFavorite(recipe: Recipe)
 }

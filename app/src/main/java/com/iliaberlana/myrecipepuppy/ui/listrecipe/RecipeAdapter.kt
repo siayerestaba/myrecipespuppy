@@ -1,4 +1,4 @@
-package com.iliaberlana.myrecipepuppy.ui.search
+package com.iliaberlana.myrecipepuppy.ui.listrecipe
 
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup

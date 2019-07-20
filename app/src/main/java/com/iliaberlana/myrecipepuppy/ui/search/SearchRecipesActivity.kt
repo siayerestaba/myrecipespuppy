@@ -1,46 +1,41 @@
 package com.iliaberlana.myrecipepuppy.ui.search
 
 import android.os.Bundle
-import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import com.iliaberlana.myrecipepuppy.R
-import com.iliaberlana.myrecipepuppy.ui.BaseListActivity
+import com.iliaberlana.myrecipepuppy.ui.commons.BaseListActivity
 import com.iliaberlana.myrecipepuppy.ui.commons.toast
+import com.iliaberlana.myrecipepuppy.ui.listrecipe.ListRecipeView
 import com.iliaberlana.myrecipepuppy.ui.model.RecipeUI
 import kotlinx.android.synthetic.main.recycler_withprogressbar_andtext.*
 import org.koin.android.scope.currentScope
 
 
-class SearchRecipesActivity : BaseListActivity(), SearchRecipeView {
+class SearchRecipesActivity : BaseListActivity(), ListRecipeView {
     private val presenter: SearchRecipesPresenter by currentScope.inject()
 
     private lateinit var searchView: SearchView
-    private lateinit var adapter: RecipeAdapter
-
-    private lateinit var gridLayoutManager: GridLayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // TODO Comprobar si hay internet, si no hay, ir a la pantalla de Favoritos
+
         setContentView(R.layout.recycler_withprogressbar_andtext)
 
         initializeRecyclerView()
+        initializeScrollInRecyclerView()
     }
 
     private val lastVisibleItemPosition: Int
-        get() = gridLayoutManager.findLastVisibleItemPosition()
+        get() = linearLayoutManager.findLastVisibleItemPosition()
 
-    private fun initializeRecyclerView() {
-        adapter = RecipeAdapter()
-
-        gridLayoutManager = GridLayoutManager(this, 2)
-
-        recipes_recyclerview.adapter = adapter
-        recipes_recyclerview.layoutManager = gridLayoutManager
+    private fun initializeScrollInRecyclerView() {
+        super.initializeRecyclerView()
 
         recipes_recyclerview.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -63,7 +58,7 @@ class SearchRecipesActivity : BaseListActivity(), SearchRecipeView {
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                /*if(newText.length > 3) { // TODO No tiene sentido, no va a encontrar nada!!
+                /*if(!presenter.isLoadingData && newText.length > 3) { // TODO No tiene sentido, no va a encontrar nada!! SE puede buscar por q
                     presenter.searchRecipesWithText(newText)
                 }*/
 
@@ -110,10 +105,6 @@ class SearchRecipesActivity : BaseListActivity(), SearchRecipeView {
 
     override fun cleanRecipes() {
         adapter.clean()
-    }
-
-    override fun cleanSearchBar() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun hideLoading() {
