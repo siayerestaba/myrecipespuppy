@@ -4,8 +4,10 @@ import arrow.core.Either
 import com.iliaberlana.myrecipepuppy.R
 import com.iliaberlana.myrecipepuppy.domain.entities.Recipe
 import com.iliaberlana.myrecipepuppy.domain.exception.DomainError
+import com.iliaberlana.myrecipepuppy.ui.listrecipe.ListRecipeView
 import com.iliaberlana.myrecipepuppy.ui.model.RecipeUI
 import com.iliaberlana.myrecipepuppy.ui.search.FavoritesRecipesPresenter
+import com.iliaberlana.myrecipepuppy.ui.search.SearchRecipesPresenter
 import com.iliaberlana.myrecipespuppy.usecases.SearchRecipes
 import io.mockk.*
 import kotlinx.coroutines.Dispatchers
@@ -18,8 +20,8 @@ import org.junit.Test
 
 class SearchPresenterTest {
     private val searchRecipes = mockk<SearchRecipes>()
-    private val presenter = FavoritesRecipesPresenter(searchRecipes)
-    private val view = mockk<FavoriteRecipeView>(relaxed = true)
+    private val presenter = SearchRecipesPresenter(searchRecipes)
+    private val view = mockk<ListRecipeView>(relaxed = true)
 
     private val mainThreadSurrogate = newSingleThreadContext("UI thread")
 
