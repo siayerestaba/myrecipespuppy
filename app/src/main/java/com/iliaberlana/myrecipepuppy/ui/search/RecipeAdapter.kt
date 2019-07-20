@@ -6,50 +6,23 @@ import com.iliaberlana.myrecipepuppy.R
 import com.iliaberlana.myrecipepuppy.ui.commons.inflate
 import com.iliaberlana.myrecipepuppy.ui.model.RecipeUI
 
-class RecipeAdapter(
-    val fetchNewPage: () -> Unit
-) : RecyclerView.Adapter<RecipeViewHolder>() {
-    private var distance: Int = 6
-    private var waitingForNextPage: Boolean = false
+class RecipeAdapter : RecyclerView.Adapter<RecipeViewHolder>() {
+    private val recipes: MutableList<RecipeUI> = ArrayList()
 
-    private var recipes: MutableList<RecipeUI> = ArrayList()
-
-    fun addAll(collection: Collection<RecipeUI>) {
-        setWaitingForNextPageFalse()
-        recipes.addAll(collection)
+    fun addAll(list: List<RecipeUI>) {
+        recipes.addAll(list)
         notifyDataSetChanged()
     }
 
     fun clean() {
-        setWaitingForNextPageFalse()
         recipes.clear()
         notifyDataSetChanged()
-    }
-
-    override fun getItemViewType(position: Int): Int {
-        if (!waitingForNextPage) {
-            if (position.plus(distance) >= itemCount) {
-                setWaitingForNextPageTrue()
-                fetchNewPage()
-            }
-        }
-
-        return super.getItemViewType(position)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeViewHolder =
         RecipeViewHolder(parent.inflate(R.layout.recipe_item))
 
-    override fun onBindViewHolder(holder: RecipeViewHolder, position: Int) = holder.bind(recipes.get(position))
+    override fun onBindViewHolder(holder: RecipeViewHolder, position: Int) = holder.bind(recipes[position])
 
-    override fun getItemCount(): Int = recipes.size
-
-    private fun setWaitingForNextPageFalse() {
-        waitingForNextPage = false
-    }
-
-    private fun setWaitingForNextPageTrue() {
-        waitingForNextPage = true
-    }
-
+    override fun getItemCount() = recipes.size
 }

@@ -12,6 +12,7 @@ class SearchRecipesPresenter(
     var recipeView: SearchRecipeView? = null
     var page: Int = 1
     var searchText: String = ""
+    var isLoadingData = false
 
     fun searchRecipesWithText(text: String) {
         page = 1
@@ -30,6 +31,7 @@ class SearchRecipesPresenter(
     }
 
     private fun searchRecipes() {
+        isLoadingData = true
         GlobalScope.launch(Dispatchers.Main) {
             val resultRecipes = withContext(Dispatchers.IO) { searchRecipes(searchText, page) }
             resultRecipes.fold({
@@ -44,6 +46,7 @@ class SearchRecipesPresenter(
                 recipeView?.listRecipes(listRecipes.map {  it.toRecipeUI() })
             })
 
+            isLoadingData = false
             recipeView?.hideLoading()
         }
     }

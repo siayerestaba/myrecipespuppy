@@ -1,13 +1,14 @@
 package com.iliaberlana.myrecipepuppy.ui.search
 
 import android.os.Bundle
+import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
-import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import com.iliaberlana.myrecipepuppy.R
 import com.iliaberlana.myrecipepuppy.ui.BaseListActivity
-import com.iliaberlana.myrecipepuppy.ui.commons.logDebug
 import com.iliaberlana.myrecipepuppy.ui.commons.toast
 import com.iliaberlana.myrecipepuppy.ui.model.RecipeUI
 import kotlinx.android.synthetic.main.recycler_withprogressbar_andtext.*
@@ -20,6 +21,8 @@ class SearchRecipesActivity : BaseListActivity(), SearchRecipeView {
     private lateinit var searchView: SearchView
     private lateinit var adapter: RecipeAdapter
 
+    private lateinit var gridLayoutManager: GridLayoutManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -28,25 +31,27 @@ class SearchRecipesActivity : BaseListActivity(), SearchRecipeView {
         initializeRecyclerView()
     }
 
-    private fun initializeRecyclerView() {
-        adapter = RecipeAdapter({ presenter.renderMoreRecipes() })
+    private val lastVisibleItemPosition: Int
+        get() = gridLayoutManager.findLastVisibleItemPosition()
 
-        val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        layoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
+    private fun initializeRecyclerView() {
+        adapter = RecipeAdapter()
+
+        gridLayoutManager = GridLayoutManager(this, 2)
 
         recipes_recyclerview.adapter = adapter
-        recipes_recyclerview.layoutManager = layoutManager
-    }
+        recipes_recyclerview.layoutManager = gridLayoutManager
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.search_menu, menu)
+        recipes_recyclerview.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
 
-        val searchItem = menu.findItem(R.id.search)
-        searchView = searchItem.actionView as SearchView
-        searchView.queryHint = getString(R.string.search_hint)
-        searching()
-
-        return true
+                val totalItemCount = recyclerView.layoutManager?.itemCount
+                if (!presenter.isLoadingData && totalItemCount == lastVisibleItemPosition + 1) {
+                    presenter.renderMoreRecipes()
+                }
+            }
+        })
     }
 
     private fun searching() {
@@ -65,6 +70,27 @@ class SearchRecipesActivity : BaseListActivity(), SearchRecipeView {
                 return false
             }
         })
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.search_menu, menu)
+
+        val searchItem = menu.findItem(R.id.search)
+        searchView = searchItem.actionView as SearchView
+        searchView.queryHint = getString(R.string.search_hint)
+        searching()
+
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item!!.itemId) {
+            R.id.favorites -> {
+                // TODO (not implemented)
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onResume() {
