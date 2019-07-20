@@ -16,10 +16,10 @@ class RecipeViewHolder(
         containerView.recipe_name.text = recipe.name
         containerView.recipe_ingredients.text = recipe.ingredients
 
-        if (recipe.imageUrl.isEmpty()) {
-            containerView.recipe_image.cleanImage()
-        } else {
-            containerView.recipe_image.loadImage(recipe.imageUrl)
-        }
+        if (recipe.imageUrl.isEmpty()) containerView.recipe_image.cleanImage()
+        else containerView.recipe_image.loadImage(recipe.imageUrl)
+
+        if(recipe.hasLactose) containerView.recipe_haslactose.visibility = View.VISIBLE
+        else  containerView.recipe_haslactose.visibility = View.GONE
     }
 }
