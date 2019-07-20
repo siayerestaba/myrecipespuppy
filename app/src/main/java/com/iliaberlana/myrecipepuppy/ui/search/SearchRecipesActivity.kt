@@ -31,7 +31,7 @@ class SearchRecipesActivity : BaseListActivity(), SearchRecipeView {
     private fun initializeRecyclerView() {
         adapter = RecipeAdapter({ presenter.renderMoreRecipes() })
 
-        val layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
+        val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         layoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
 
         recipes_recyclerview.adapter = adapter
@@ -53,7 +53,7 @@ class SearchRecipesActivity : BaseListActivity(), SearchRecipeView {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 presenter.searchRecipesWithText(query)
-                
+
                 return false
             }
 

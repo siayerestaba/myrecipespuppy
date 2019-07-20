@@ -9,25 +9,30 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.Target
 import com.iliaberlana.myrecipepuppy.R
 
 fun ViewGroup.inflate(@LayoutRes layoutRes: Int): View =
     LayoutInflater.from(context).inflate(layoutRes, this, false)
 
 fun Context.toast(context: Context = applicationContext, message: String, duration: Int = Toast.LENGTH_SHORT) {
-    Toast.makeText(context, message , duration).show()
+    Toast.makeText(context, message, duration).show()
+}
+
+fun String.cleanHexCaracters(): String {
+    return this.replace("\r", "").replace("\n", "").replace("\t", "")
 }
 
 fun ImageView.loadImage(path: String?) {
-    if (!path.isNullOrEmpty()) {
-        Glide.with(context)
-            .load(path)
-            .centerCrop()
-            .placeholder(R.mipmap.placeholder)
-            .override(Target.SIZE_ORIGINAL)
-            .into(this)
-    }
+    Glide.with(context)
+        .load(path)
+        .centerCrop()
+        .placeholder(R.mipmap.placeholder)
+        .into(this)
+}
+
+fun ImageView.cleanImage() {
+    Glide.with(context).clear(this)
+    setImageResource(R.mipmap.placeholder)
 }
 
 fun String.logDebug(message: String) {

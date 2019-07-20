@@ -21,6 +21,13 @@
         <item name="android:textAlignment">center</item>
     </style>
 
+    <style name="recipe_ingredients">
+        <item name="android:textSize">@dimen/text_12sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textAlignment">textStart</item>
+    </style>
+
     <style name="errorMessage">
         <item name="android:textSize">@dimen/text_30sp</item>
         <item name="android:textColor">@color/colorPrimaryDark</item>

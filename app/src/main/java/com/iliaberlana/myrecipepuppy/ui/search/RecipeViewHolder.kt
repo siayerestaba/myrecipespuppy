@@ -2,6 +2,8 @@ package com.iliaberlana.myrecipepuppy.ui.search
 
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import com.iliaberlana.myrecipepuppy.ui.commons.cleanImage
+import com.iliaberlana.myrecipepuppy.ui.commons.loadImage
 import com.iliaberlana.myrecipepuppy.ui.model.RecipeUI
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.recipe_item.view.*
@@ -11,7 +13,13 @@ class RecipeViewHolder(
 ) : RecyclerView.ViewHolder(containerView), LayoutContainer
 {
     fun bind(recipe: RecipeUI) {
-//        containerView.recipe_image.loadImage(recipe.image)
         containerView.recipe_name.text = recipe.name
+        containerView.recipe_ingredients.text = recipe.ingredients
+
+        if (recipe.imageUrl.isEmpty()) {
+            containerView.recipe_image.cleanImage()
+        } else {
+            containerView.recipe_image.loadImage(recipe.imageUrl)
+        }
     }
 }
