@@ -11,8 +11,8 @@ import com.iliaberlana.myrecipepuppy.usecases.SaveFavorite
 import com.iliaberlana.myrecipespuppy.usecases.SearchRecipes
 import io.mockk.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.After
@@ -22,26 +22,41 @@ import org.junit.Test
 class SearchPresenterTest {
     private val searchRecipes = mockk<SearchRecipes>()
     private val saveFavorite = mockk<SaveFavorite>()
-    private val presenter = SearchRecipesPresenter(searchRecipes, saveFavorite)
     private val view = mockk<SearchRecipeView>(relaxed = true)
-
-    private val mainThreadSurrogate = newSingleThreadContext("UI thread")
+    private lateinit var presenter : SearchRecipesPresenter
 
     @Before
     fun setUp() {
+        presenter = SearchRecipesPresenter(searchRecipes, saveFavorite)
         presenter.recipeView = view
 
-        Dispatchers.setMain(mainThreadSurrogate)
+        Dispatchers.setMain(TestCoroutineDispatcher())
     }
 
     @After
     fun tearDown() {
-        Dispatchers.resetMain() // reset main dispatcher to the original Main dispatcher
-        mainThreadSurrogate.close()
+        Dispatchers.resetMain()
     }
 
     @Test
-    fun `should call hideErrorCase and listRecipes when returns a list of recipes`() {
+    fun `should call showLoading, cleanRecipes, execute searchRecipe with page 1 and same text and hideLoading in order when call searchRecipeWithText`() = runBlocking {
+        coEvery {
+            searchRecipes(any(), any())
+        } returns Either.right(emptyList())
+
+        presenter.page = 5
+        presenter.searchRecipesWithText("onion")
+
+        coVerifyOrder {
+            presenter.recipeView?.showLoading()
+            presenter.recipeView?.cleanRecipes()
+            searchRecipes("onion", 1)
+            presenter.recipeView?.hideLoading()
+        }
+    }
+
+    @Test
+    fun `should call hideErrorCase and listRecipes when returns a list of recipes`() = runBlocking {
         val listRecipes = listOf(
             Recipe(
                 "Recipe title",
@@ -67,32 +82,16 @@ class SearchPresenterTest {
 
         presenter.searchRecipesWithText("onion")
 
-        coVerifyOrder {
-            searchRecipes("onion", 1)
+        verifyOrder {
+            presenter.recipeView?.showLoading()
+            presenter.recipeView?.cleanRecipes()
             presenter.recipeView?.hideErrorCase()
             presenter.recipeView?.listRecipes(expected)
         }
     }
 
     @Test
-    fun `should call showLoading, cleanRecipes, execute searchRecipe with page 1 and same text and hideLoading in order when call searchRecipeWithText`() {
-        coEvery {
-            searchRecipes(any(), any())
-        } returns Either.right(emptyList())
-
-        presenter.page = 5
-        presenter.searchRecipesWithText("onion")
-
-        coVerifyOrder {
-            presenter.recipeView?.showLoading()
-            presenter.recipeView?.cleanRecipes()
-            searchRecipes("onion", 1)
-            presenter.recipeView?.hideLoading()
-        }
-    }
-
-    @Test
-    fun `should execute searchRecipe with one page more when call renderMoreRecipes`() {
+    fun `should execute searchRecipe with one page more when call renderMoreRecipes`() = runBlocking {
         coEvery {
             searchRecipes(any(), any())
         } returns Either.right(emptyList())
@@ -146,7 +145,7 @@ class SearchPresenterTest {
 
         presenter.searchRecipesWithText("oni")
 
-        coVerify(exactly = 1) {
+        verify(exactly = 1) {
             presenter.recipeView?.showErrorCase(R.string.emptyList)
         }
     }
@@ -159,7 +158,7 @@ class SearchPresenterTest {
 
         presenter.searchRecipesWithText("onion")
 
-        coVerify(exactly = 1) {
+        verify(exactly = 1) {
             presenter.recipeView?.showErrorCase(R.string.noInternetConectionError)
         }
     }
@@ -172,13 +171,13 @@ class SearchPresenterTest {
 
         presenter.searchRecipesWithText("onion")
 
-        coVerify(exactly = 1) {
+        verify(exactly = 1) {
             presenter.recipeView?.showErrorCase(R.string.unknownException)
         }
     }
 
     @Test
-    fun `call showToastMessage with noMoreRecipesId when call renderMoreRecipes and returns NoMoreRecipesException`() {
+    fun `call showToastMessage with noMoreRecipesId when call renderMoreRecipes and returns NoMoreRecipesException`() = runBlocking {
         coEvery {
             searchRecipes(any(), any())
         } returns Either.left(DomainError.NoMoreRecipesException)
@@ -187,14 +186,13 @@ class SearchPresenterTest {
         presenter.searchText = "onion"
         presenter.renderMoreRecipes()
 
-        coVerifyOrder {
-            searchRecipes("onion", 5)
+        verify(exactly = 1) {
             presenter.recipeView?.showToastMessage(R.string.noMoreRecipes)
         }
     }
 
     @Test
-    fun `call showToastMessage with noInternetConectionErrorId when call renderMoreRecipes and returns NoInternetConnectionException`() {
+    fun `call showToastMessage with noInternetConectionErrorId when call renderMoreRecipes and returns NoInternetConnectionException`() = runBlocking {
         coEvery {
             searchRecipes(any(), any())
         } returns Either.left(DomainError.NoInternetConnectionException)
@@ -203,14 +201,13 @@ class SearchPresenterTest {
         presenter.searchText = "onion"
         presenter.renderMoreRecipes()
 
-        coVerifyOrder {
-            searchRecipes("onion", 5)
+        verify(exactly = 1) {
             presenter.recipeView?.showToastMessage(R.string.noInternetConectionError)
         }
     }
 
     @Test
-    fun `call showToastMessage with unknownExceptionId when call renderMoreRecipes and returns UnknownException`() {
+    fun `call showToastMessage with unknownExceptionId when call renderMoreRecipes and returns UnknownException`() = runBlocking {
         coEvery {
             searchRecipes(any(), any())
         } returns Either.left(DomainError.UnknownException)
@@ -219,8 +216,7 @@ class SearchPresenterTest {
         presenter.searchText = "onion"
         presenter.renderMoreRecipes()
 
-        coVerifyOrder {
-            searchRecipes("onion", 5)
+        verify(exactly = 1) {
             presenter.recipeView?.showToastMessage(R.string.unknownException)
         }
     }
