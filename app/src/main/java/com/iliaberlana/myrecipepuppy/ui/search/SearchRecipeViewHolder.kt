@@ -29,5 +29,7 @@ class SearchRecipeViewHolder(
             presenter.addFavorite(recipe)
             containerView.recipe_addfavorite.visibility = View.GONE
         }
+
+        containerView.setOnClickListener { presenter.onRecipeClicked(recipe) }
     }
 }

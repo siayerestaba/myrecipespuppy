@@ -8,11 +8,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.iliaberlana.myrecipepuppy.R
 import com.iliaberlana.myrecipepuppy.ui.commons.toast
 import com.iliaberlana.myrecipepuppy.ui.model.RecipeUI
+import kotlinx.android.synthetic.main.recipe_list.*
 import kotlinx.android.synthetic.main.recycler_withprogressbar_andtext.*
 import org.koin.androidx.scope.currentScope
 
 
-class FavoriteRecipesActivity : AppCompatActivity(), FavoriteRecipesView {
+class FavoriteRecipesActivity : AppCompatActivity(), FavoriteRecipesView
+{
     private val presenter: FavoritesRecipesPresenter by currentScope.inject()
 
     private lateinit var adapter: FavoriteRecipesAdapter
@@ -27,6 +29,7 @@ class FavoriteRecipesActivity : AppCompatActivity(), FavoriteRecipesView {
         initActionBar()
         initializeRecyclerView()
 
+        presenter.recipeView = this
         presenter.renderFavoriteRecipes()
     }
 
@@ -72,11 +75,6 @@ class FavoriteRecipesActivity : AppCompatActivity(), FavoriteRecipesView {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
-    }
-
-    override fun onResume() {
-        super.onResume()
-        presenter.recipeView = this
     }
 
     override fun onDestroy() {

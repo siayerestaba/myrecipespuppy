@@ -6,4 +6,5 @@ import com.iliaberlana.myrecipepuppy.ui.model.RecipeUI
 interface SearchRecipeView: BaseView {
     fun listRecipes(recipes: List<RecipeUI>)
     fun cleanRecipes()
+    fun showRecipe(recipeUI: RecipeUI)
 }

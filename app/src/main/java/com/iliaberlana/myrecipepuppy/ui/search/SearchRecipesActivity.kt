@@ -11,8 +11,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.iliaberlana.myrecipepuppy.R
 import com.iliaberlana.myrecipepuppy.ui.commons.toast
+import com.iliaberlana.myrecipepuppy.ui.detail.RecipeDetailActivity
 import com.iliaberlana.myrecipepuppy.ui.favorites.FavoriteRecipesActivity
 import com.iliaberlana.myrecipepuppy.ui.model.RecipeUI
+import kotlinx.android.synthetic.main.recipe_list.*
 import kotlinx.android.synthetic.main.recycler_withprogressbar_andtext.*
 import org.koin.androidx.scope.currentScope
 
@@ -27,12 +29,19 @@ class SearchRecipesActivity : AppCompatActivity(), SearchRecipeView {
     private val lastVisibleItemPosition: Int
         get() = linearLayoutManager.findLastVisibleItemPosition()
 
+    private var twoPane: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.recycler_withprogressbar_andtext)
         // TODO Comprobar si hay internet, si no hay, ir a la pantalla de Favoritos
 
+        presenter.recipeView = this
         initializeRecyclerView()
+
+        if (recipe_detail_container != null) {
+            twoPane = true
+        }
     }
 
     private fun initializeRecyclerView() {
@@ -63,7 +72,7 @@ class SearchRecipesActivity : AppCompatActivity(), SearchRecipeView {
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                if(!presenter.isLoadingData && newText.length > 3) {
+                if (!presenter.isLoadingData && newText.length > 3) {
                     presenter.searchRecipesWithText(newText)
                 }
 
@@ -102,6 +111,10 @@ class SearchRecipesActivity : AppCompatActivity(), SearchRecipeView {
         adapter.clean()
     }
 
+    override fun showRecipe(recipeUI: RecipeUI) {
+        RecipeDetailActivity.open(activity = this, recipeName = recipeUI.name, recipeLink = recipeUI.link)
+    }
+
     override fun hideLoading() {
         recipes_progressbar.visibility = View.GONE
     }
@@ -121,11 +134,6 @@ class SearchRecipesActivity : AppCompatActivity(), SearchRecipeView {
 
     override fun hideErrorCase() {
         recipes_texterror.visibility = View.GONE
-    }
-
-    override fun onResume() {
-        super.onResume()
-        presenter.recipeView = this
     }
 
     override fun onDestroy() {

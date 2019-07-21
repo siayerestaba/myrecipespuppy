@@ -32,6 +32,17 @@ class SearchRecipesPresenter(
         searchRecipes()
     }
 
+    fun addFavorite(recipeUI: RecipeUI) {
+        val recipe = recipeUI.toDomain()
+
+        launch {
+            saveFavorite(recipe)
+            recipeView?.showToastMessage(R.string.favorite_saved)
+        }
+    }
+
+    fun onRecipeClicked(recipeUI: RecipeUI) = recipeView?.showRecipe(recipeUI)
+
     private fun searchRecipes() = launch {
         isLoadingData = true
         val resultRecipes = withContext(Dispatchers.IO) { searchRecipes(searchText, page) }
@@ -49,15 +60,6 @@ class SearchRecipesPresenter(
 
         isLoadingData = false
         recipeView?.hideLoading()
-    }
-
-    fun addFavorite(recipeUI: RecipeUI) {
-        val recipe = recipeUI.toDomain()
-
-        launch {
-            saveFavorite(recipe)
-            recipeView?.showToastMessage(R.string.favorite_saved)
-        }
     }
 
     private fun showErrorMessage(stringIdError: Int) {

@@ -10,7 +10,7 @@ data class RecipeUI (
     val link : String,
     val isFavorite : Boolean,
     val hasLactose : Boolean
-){
+) {
     fun toDomain(): Recipe = Recipe(name, ingredients, imageUrl, link)
 
     companion object {
