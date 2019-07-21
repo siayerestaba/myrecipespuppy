@@ -2,8 +2,7 @@ package com.iliaberlana.myrecipepuppy.ui.favorites
 
 import com.iliaberlana.myrecipepuppy.R
 import com.iliaberlana.myrecipepuppy.domain.exception.RoomError
-import com.iliaberlana.myrecipepuppy.ui.search.SearchRecipeView
-import com.iliaberlana.myrecipepuppy.ui.model.toRecipeUI
+import com.iliaberlana.myrecipepuppy.ui.model.RecipeUI
 import com.iliaberlana.myrecipespuppy.usecases.ShowFavoriteRecipes
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -29,7 +28,7 @@ class FavoritesRecipesPresenter(
                 }
             }, { listRecipes ->
                 recipeView?.hideErrorCase()
-                recipeView?.listFavorites(listRecipes.map { it.toRecipeUI() })
+                recipeView?.listFavorites(listRecipes.map { RecipeUI.fromDomain(it) })
             })
 
             recipeView?.hideLoading()

@@ -4,10 +4,20 @@ import assertk.assertThat
 import assertk.assertions.isEqualToWithGivenProperties
 import com.iliaberlana.myrecipepuppy.domain.entities.Recipe
 import com.iliaberlana.myrecipepuppy.ui.model.RecipeUI
-import com.iliaberlana.myrecipepuppy.ui.model.toRecipeUI
 import org.junit.Test
 
 class MapperRecipeToRecipeUI {
+
+    @Test
+    fun `should return Recipe from RecipeUI with same values`() {
+        val expected = Recipe("Recipe title", "onion, garlic", "https://via.placeholder.com/150","http://www.recipepuppy.com/150")
+
+        val recipeUI = RecipeUI("Recipe title", "onion, garlic", "https://via.placeholder.com/150", "http://www.recipepuppy.com/150", isFavorite = false, hasLactose = false)
+
+        val actual = recipeUI.toDomain()
+
+        assertThat(expected).isEqualToWithGivenProperties(actual, Recipe::name, Recipe::ingredients, Recipe::imageUrl, Recipe::link)
+    }
 
     @Test
     fun `should return RecipeUI from Recipe with same values`() {
@@ -15,7 +25,7 @@ class MapperRecipeToRecipeUI {
 
         val recipe = Recipe("Recipe title", "onion, garlic", "https://via.placeholder.com/150","http://www.recipepuppy.com/150")
 
-        val actual = recipe.toRecipeUI()
+        val actual = RecipeUI.fromDomain(recipe)
 
         assertThat(expected).isEqualToWithGivenProperties(actual, RecipeUI::name, RecipeUI::ingredients, RecipeUI::imageUrl, RecipeUI::link, RecipeUI::isFavorite, RecipeUI::hasLactose)
     }
@@ -26,7 +36,7 @@ class MapperRecipeToRecipeUI {
 
         val recipe = Recipe("Recipe title", "onion, milk", "https://via.placeholder.com/150","http://www.recipepuppy.com/150")
 
-        val actual = recipe.toRecipeUI()
+        val actual = RecipeUI.fromDomain(recipe)
 
         assertThat(expected).isEqualToWithGivenProperties(actual, RecipeUI::name, RecipeUI::ingredients, RecipeUI::imageUrl, RecipeUI::link, RecipeUI::isFavorite, RecipeUI::hasLactose)
     }
@@ -37,7 +47,7 @@ class MapperRecipeToRecipeUI {
 
         val recipe = Recipe("Recipe title", "onion, cheese", "https://via.placeholder.com/150","http://www.recipepuppy.com/150")
 
-        val actual = recipe.toRecipeUI()
+        val actual = RecipeUI.fromDomain(recipe)
 
         assertThat(expected).isEqualToWithGivenProperties(actual, RecipeUI::name, RecipeUI::ingredients, RecipeUI::imageUrl, RecipeUI::link, RecipeUI::isFavorite, RecipeUI::hasLactose)
     }

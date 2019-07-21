@@ -1,10 +1,8 @@
 package com.iliaberlana.myrecipepuppy.ui.search
 
 import com.iliaberlana.myrecipepuppy.R
-import com.iliaberlana.myrecipepuppy.domain.entities.Recipe
 import com.iliaberlana.myrecipepuppy.domain.exception.DomainError
 import com.iliaberlana.myrecipepuppy.ui.model.RecipeUI
-import com.iliaberlana.myrecipepuppy.ui.model.toRecipeUI
 import com.iliaberlana.myrecipepuppy.usecases.SaveFavorite
 import com.iliaberlana.myrecipespuppy.usecases.SearchRecipes
 import kotlinx.coroutines.*
@@ -46,19 +44,20 @@ class SearchRecipesPresenter(
             }
         }, { listRecipes ->
             recipeView?.hideErrorCase()
-            recipeView?.listRecipes(listRecipes.map { it.toRecipeUI() })
+            recipeView?.listRecipes(listRecipes.map { RecipeUI.fromDomain(it) })
         })
 
         isLoadingData = false
         recipeView?.hideLoading()
     }
 
-    fun addFavorite(recipeUI: RecipeUI) = launch {
-        val recipe = Recipe(recipeUI.name, recipeUI.ingredients, recipeUI.imageUrl, recipeUI.link) // TODO Crear mapper
+    fun addFavorite(recipeUI: RecipeUI) {
+        val recipe = recipeUI.toDomain()
 
-        saveFavorite(recipe)
-
-        recipeView?.showToastMessage(R.string.favorite_saved)
+        launch {
+            saveFavorite(recipe)
+            recipeView?.showToastMessage(R.string.favorite_saved)
+        }
     }
 
     private fun showErrorMessage(stringIdError: Int) {
