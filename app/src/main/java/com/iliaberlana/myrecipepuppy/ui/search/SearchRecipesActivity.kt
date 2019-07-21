@@ -63,9 +63,9 @@ class SearchRecipesActivity : AppCompatActivity(), SearchRecipeView {
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                /*if(!presenter.isLoadingData && newText.length > 3) { // TODO No tiene sentido, no va a encontrar nada!! SE puede buscar por q
+                if(!presenter.isLoadingData && newText.length > 3) {
                     presenter.searchRecipesWithText(newText)
-                }*/
+                }
 
                 return false
             }
