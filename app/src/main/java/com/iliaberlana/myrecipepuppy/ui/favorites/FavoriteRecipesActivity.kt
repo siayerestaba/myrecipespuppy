@@ -3,52 +3,49 @@ package com.iliaberlana.myrecipepuppy.ui.favorites
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.iliaberlana.myrecipepuppy.R
-import com.iliaberlana.myrecipepuppy.ui.commons.BaseListActivity
 import com.iliaberlana.myrecipepuppy.ui.commons.toast
-import com.iliaberlana.myrecipepuppy.ui.listrecipe.ListRecipeView
 import com.iliaberlana.myrecipepuppy.ui.model.RecipeUI
 import kotlinx.android.synthetic.main.recycler_withprogressbar_andtext.*
 import org.koin.androidx.scope.currentScope
 
 
-class FavoriteRecipesActivity : BaseListActivity(), ListRecipeView {
+class FavoriteRecipesActivity : AppCompatActivity(), FavoriteRecipesView {
     private val presenter: FavoritesRecipesPresenter by currentScope.inject()
+
+    private lateinit var adapter: FavoriteRecipesAdapter
+    private lateinit var linearLayoutManager: LinearLayoutManager
 
     private var actionbar: ActionBar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.recycler_withprogressbar_andtext)
 
-        actionbar = supportActionBar
-        actionbar!!.setDisplayHomeAsUpEnabled(true)
-        actionbar!!.title = resources.getString(R.string.favorite_title)
+        initActionBar()
+        initializeRecyclerView()
 
         presenter.renderFavoriteRecipes()
     }
 
-    override fun onResume() {
-        super.onResume()
-        presenter.recipeView = this
+    private fun initActionBar() {
+        actionbar = supportActionBar
+        actionbar!!.setDisplayHomeAsUpEnabled(true)
+        actionbar!!.title = resources.getString(R.string.favorite_title)
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return true
+    private fun initializeRecyclerView() {
+        adapter = FavoriteRecipesAdapter(presenter)
+        recipes_recyclerview.adapter = adapter
+
+        linearLayoutManager = LinearLayoutManager(this)
+        recipes_recyclerview.layoutManager = linearLayoutManager
     }
 
-    override fun onDestroy() {
-        presenter.onDestroy()
-
-        super.onDestroy()
-    }
-
-    override fun listRecipes(recipes: List<RecipeUI>) {
-        adapter.addAll(recipes)
-    }
-
-    override fun cleanRecipes() {
-        adapter.clean()
+    override fun listFavorites(favorites: List<RecipeUI>) {
+        adapter.addAll(favorites)
     }
 
     override fun hideLoading() {
@@ -70,5 +67,21 @@ class FavoriteRecipesActivity : BaseListActivity(), ListRecipeView {
 
     override fun hideErrorCase() {
         recipes_texterror.visibility = View.GONE
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
+
+    override fun onResume() {
+        super.onResume()
+        presenter.recipeView = this
+    }
+
+    override fun onDestroy() {
+        presenter.onDestroy()
+
+        super.onDestroy()
     }
 }

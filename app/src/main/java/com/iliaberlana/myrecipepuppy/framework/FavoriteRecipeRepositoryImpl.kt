@@ -33,6 +33,6 @@ class FavoriteRecipeRepositoryImpl(
     }
 
     private fun fromRecipeToRecipeDB(recipe: Recipe): RecipeDbEntity {
-        return RecipeDbEntity(1, recipe.name, recipe.ingredients, recipe.imageUrl, recipe.link) // TODO El ID no debería pasarlo
+        return RecipeDbEntity(null, recipe.name, recipe.ingredients, recipe.imageUrl, recipe.link)
     }
 }

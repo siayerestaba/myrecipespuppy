@@ -1,17 +1,19 @@
 package com.iliaberlana.myrecipepuppy.ui.search
 
 import com.iliaberlana.myrecipepuppy.R
+import com.iliaberlana.myrecipepuppy.domain.entities.Recipe
 import com.iliaberlana.myrecipepuppy.domain.exception.DomainError
-import com.iliaberlana.myrecipepuppy.ui.listrecipe.ListRecipeView
 import com.iliaberlana.myrecipepuppy.ui.model.RecipeUI
 import com.iliaberlana.myrecipepuppy.ui.model.toRecipeUI
+import com.iliaberlana.myrecipepuppy.usecases.SaveFavorite
 import com.iliaberlana.myrecipespuppy.usecases.SearchRecipes
 import kotlinx.coroutines.*
 
 class SearchRecipesPresenter(
-    private val searchRecipes: SearchRecipes
-) {
-    var recipeView: ListRecipeView? = null
+    private val searchRecipes: SearchRecipes,
+    private val saveFavorite: SaveFavorite
+) : CoroutineScope by MainScope() {
+    var recipeView: SearchRecipeView? = null
     var page: Int = 1
     var searchText: String = ""
     var isLoadingData = false
@@ -32,29 +34,31 @@ class SearchRecipesPresenter(
         searchRecipes()
     }
 
-    private fun searchRecipes() {
+    private fun searchRecipes() = launch {
         isLoadingData = true
-        GlobalScope.launch(Dispatchers.Main) {
-            val resultRecipes = withContext(Dispatchers.IO) { searchRecipes(searchText, page) }
-            resultRecipes.fold({
-                when(it) {
-                    is DomainError.NoRecipesException -> showErrorMessage(R.string.emptyList)
-                    is DomainError.NoMoreRecipesException -> showErrorMessage(R.string.noMoreRecipes)
-                    is DomainError.NoInternetConnectionException -> showErrorMessage(R.string.noInternetConectionError)
-                    is DomainError.UnknownException -> showErrorMessage(R.string.unknownException)
-                }
-            }, {listRecipes ->
-                recipeView?.hideErrorCase()
-                recipeView?.listRecipes(listRecipes.map {  it.toRecipeUI() })
-            })
+        val resultRecipes = withContext(Dispatchers.IO) { searchRecipes(searchText, page) }
+        resultRecipes.fold({
+            when (it) {
+                is DomainError.NoRecipesException -> showErrorMessage(R.string.emptyList)
+                is DomainError.NoMoreRecipesException -> showErrorMessage(R.string.noMoreRecipes)
+                is DomainError.NoInternetConnectionException -> showErrorMessage(R.string.noInternetConectionError)
+                is DomainError.UnknownException -> showErrorMessage(R.string.unknownException)
+            }
+        }, { listRecipes ->
+            recipeView?.hideErrorCase()
+            recipeView?.listRecipes(listRecipes.map { it.toRecipeUI() })
+        })
 
-            isLoadingData = false
-            recipeView?.hideLoading()
-        }
+        isLoadingData = false
+        recipeView?.hideLoading()
     }
 
-    fun addFavorite(recipeUI: RecipeUI) {
+    fun addFavorite(recipeUI: RecipeUI) = launch {
+        val recipe = Recipe(recipeUI.name, recipeUI.ingredients, recipeUI.imageUrl, recipeUI.link) // TODO Crear mapper
 
+        saveFavorite(recipe)
+
+        recipeView?.showToastMessage(R.string.favorite_saved)
     }
 
     private fun showErrorMessage(stringIdError: Int) {

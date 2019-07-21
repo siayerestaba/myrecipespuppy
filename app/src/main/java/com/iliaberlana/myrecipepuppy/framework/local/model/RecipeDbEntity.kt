@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class RecipeDbEntity(
-    @PrimaryKey(autoGenerate = true) val id : Int = 0,
+    @PrimaryKey(autoGenerate = true) val id : Int?,
     @ColumnInfo(name = "name") val name: String,
     @ColumnInfo(name = "ingredients") val ingredients: String,
     @ColumnInfo(name = "image_url") val imageUrl: String,

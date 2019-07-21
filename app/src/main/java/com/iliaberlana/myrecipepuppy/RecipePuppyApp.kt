@@ -14,6 +14,7 @@ import com.iliaberlana.myrecipepuppy.ui.favorites.FavoriteRecipesActivity
 import com.iliaberlana.myrecipepuppy.ui.favorites.FavoritesRecipesPresenter
 import com.iliaberlana.myrecipepuppy.ui.search.SearchRecipesActivity
 import com.iliaberlana.myrecipepuppy.ui.search.SearchRecipesPresenter
+import com.iliaberlana.myrecipepuppy.usecases.SaveFavorite
 import com.iliaberlana.myrecipespuppy.usecases.SearchRecipes
 import com.iliaberlana.myrecipespuppy.usecases.ShowFavoriteRecipes
 import org.koin.android.ext.koin.androidApplication
@@ -39,20 +40,22 @@ class RecipePuppyApp : Application() {
     }
 
     private val appModule = module {
-        single { NetworkFactory() }
-        single { RecipeRemoteDataSource() }
-        single<RecipeRepository> { RecipeRepositoryImpl(get()) }
-        single { SearchRecipes(get()) }
-
-        scope(named<SearchRecipesActivity>()) {
-            scoped { SearchRecipesPresenter(get()) }
-        }
-
         single {
             Room.databaseBuilder(androidApplication(), RecipeDatabase::class.java, "recipe-db").build()
         }
+        single { NetworkFactory() }
+        single { RecipeRemoteDataSource() }
+
+        single<RecipeRepository> { RecipeRepositoryImpl(get()) }
         single<FavoriteRecipeRepository> { FavoriteRecipeRepositoryImpl(get<RecipeDatabase>().recipeDao()) }
+
+        single { SearchRecipes(get()) }
         single { ShowFavoriteRecipes(get()) }
+        single { SaveFavorite(get()) }
+
+        scope(named<SearchRecipesActivity>()) {
+            scoped { SearchRecipesPresenter(get(), get()) }
+        }
 
         scope(named<FavoriteRecipesActivity>()) {
             scoped { FavoritesRecipesPresenter(get()) }
