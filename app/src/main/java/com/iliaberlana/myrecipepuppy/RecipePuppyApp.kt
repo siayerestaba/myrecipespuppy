@@ -15,8 +15,8 @@ import com.iliaberlana.myrecipepuppy.ui.favorites.FavoritesRecipesPresenter
 import com.iliaberlana.myrecipepuppy.ui.search.SearchRecipesActivity
 import com.iliaberlana.myrecipepuppy.ui.search.SearchRecipesPresenter
 import com.iliaberlana.myrecipepuppy.usecases.SaveFavorite
-import com.iliaberlana.myrecipespuppy.usecases.SearchRecipes
-import com.iliaberlana.myrecipespuppy.usecases.ShowFavoriteRecipes
+import com.iliaberlana.myrecipepuppy.usecases.SearchRecipes
+import com.iliaberlana.myrecipepuppy.usecases.ShowFavoriteRecipes
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger

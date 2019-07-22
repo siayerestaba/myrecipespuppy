@@ -1,4 +1,4 @@
-package com.iliaberlana.myrecipespuppy.usecases
+package com.iliaberlana.myrecipepuppy.usecases
 
 import arrow.core.Either
 import com.iliaberlana.myrecipepuppy.domain.data.RecipeRepository

@@ -4,7 +4,7 @@ import com.iliaberlana.myrecipepuppy.R
 import com.iliaberlana.myrecipepuppy.domain.exception.DomainError
 import com.iliaberlana.myrecipepuppy.ui.model.RecipeUI
 import com.iliaberlana.myrecipepuppy.usecases.SaveFavorite
-import com.iliaberlana.myrecipespuppy.usecases.SearchRecipes
+import com.iliaberlana.myrecipepuppy.usecases.SearchRecipes
 import kotlinx.coroutines.*
 
 class SearchRecipesPresenter(

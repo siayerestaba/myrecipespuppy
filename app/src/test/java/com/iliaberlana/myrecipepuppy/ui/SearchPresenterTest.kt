@@ -8,7 +8,7 @@ import com.iliaberlana.myrecipepuppy.ui.search.SearchRecipeView
 import com.iliaberlana.myrecipepuppy.ui.model.RecipeUI
 import com.iliaberlana.myrecipepuppy.ui.search.SearchRecipesPresenter
 import com.iliaberlana.myrecipepuppy.usecases.SaveFavorite
-import com.iliaberlana.myrecipespuppy.usecases.SearchRecipes
+import com.iliaberlana.myrecipepuppy.usecases.SearchRecipes
 import io.mockk.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking

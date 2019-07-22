@@ -3,7 +3,7 @@ package com.iliaberlana.myrecipepuppy.ui.favorites
 import com.iliaberlana.myrecipepuppy.R
 import com.iliaberlana.myrecipepuppy.domain.exception.RoomError
 import com.iliaberlana.myrecipepuppy.ui.model.RecipeUI
-import com.iliaberlana.myrecipespuppy.usecases.ShowFavoriteRecipes
+import com.iliaberlana.myrecipepuppy.usecases.ShowFavoriteRecipes
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
