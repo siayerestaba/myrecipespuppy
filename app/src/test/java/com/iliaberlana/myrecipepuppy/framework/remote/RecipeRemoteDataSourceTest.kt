@@ -1,19 +1,19 @@
 package com.iliaberlana.myrecipepuppy.framework.remote
 
-import assertk.assertThat
-import assertk.assertions.isEqualTo
+import com.iliaberlana.myrecipepuppy.domain.exception.DomainError
 import io.kotlintest.matchers.collections.shouldBeEmpty
+import io.kotlintest.matchers.collections.shouldHaveSize
+import io.kotlintest.matchers.collections.shouldNotBeEmpty
+import io.kotlintest.shouldBe
 import kotlinx.coroutines.runBlocking
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
-
-class NetworkFactoryTest {
+class RecipeRemoteDataSourceTest {
     private val mockWebServer = MockWebServer()
-    private val networkFactory = NetworkFactory()
+    private val recipeRemoteDataSource = RecipeRemoteDataSource(NetworkFactory())
     private lateinit var recipeClient : RecipeClient
 
     @Before
@@ -21,7 +21,7 @@ class NetworkFactoryTest {
         mockWebServer.start()
 
         val httpUrl = mockWebServer.url("/")
-        recipeClient = networkFactory.createApi(RecipeClient::class.java, httpUrl.toString())
+        recipeRemoteDataSource.urlBase = httpUrl.toString()
     }
 
     @Test
@@ -40,13 +40,26 @@ class NetworkFactoryTest {
 
         mockWebServer.enqueue(response)
 
-        val actual = recipeClient.searchRecipes("onion,garlic", 1)
+        val actual = recipeRemoteDataSource.searchRecipes("onion,garlic", 1)
 
-        actual.results.shouldBeEmpty()
+        actual.shouldBeEmpty()
     }
 
     @Test
-    fun `should have title, version, href and results`() = runBlocking {
+    fun `should return throw when response is not 200ok`() = runBlocking {
+        mockWebServer.enqueue(MockResponse().setResponseCode(404))
+
+        try {
+            recipeRemoteDataSource.searchRecipes("onion,garlic", 1)
+        } catch (error: DomainError) {
+            error.shouldBe(DomainError.NoInternetConnectionException)
+        }
+
+        Unit
+    }
+
+    @Test
+    fun `should return list with 10 recipes`() = runBlocking {
         val response = MockResponse()
             .addHeader("Content-Type", "application/json; charset=utf-8")
             .addHeader("Cache-Control", "no-cache")
@@ -111,19 +124,9 @@ class NetworkFactoryTest {
 
         mockWebServer.enqueue(response)
 
-        val actual = recipeClient.searchRecipes("onion,garlic", 1)
+        val actual = recipeRemoteDataSource.searchRecipes("onion,garlic", 1)
 
-        assertThat(actual.title).isEqualTo("Recipe Puppy")
-        assertThat(actual.version).isEqualTo("0.1")
-        assertThat(actual.href).isEqualTo("http://www.recipepuppy.com/")
-        assert(actual.results.size == 10)
+        actual.shouldNotBeEmpty()
+        actual.shouldHaveSize(10)
     }
-
-    @After
-    @Throws(Exception::class)
-    fun tearDown() {
-        mockWebServer.shutdown()
-    }
-
 }
-

@@ -44,7 +44,7 @@ class RecipePuppyApp : Application() {
             Room.databaseBuilder(androidApplication(), RecipeDatabase::class.java, "recipe-db").build()
         }
         single { NetworkFactory() }
-        single { RecipeRemoteDataSource() }
+        single { RecipeRemoteDataSource(get()) }
 
         single<RecipeRepository> { RecipeRepositoryImpl(get()) }
         single<FavoriteRecipeRepository> { FavoriteRecipeRepositoryImpl(get<RecipeDatabase>().recipeDao()) }
