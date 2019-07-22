@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">My Recipe Puppy</string>
 
+    <string name="welcome">You need search some ingredient for see recipes</string>
+
     <string name="emptyList">Don\'t have recipes for this ingredients.\nPlease, try again.</string>
     <string name="noMoreRecipes">Don\'t have more recipes for this ingredients</string>
     <string name="noInternetConectionError">Please, check you Internet connection.</string>
