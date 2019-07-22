@@ -35,7 +35,7 @@ class SearchRecipeActivityTest: AndroidJUnitRunner() {
     }
 
     @Test
-    fun shows_ordenation_button() {
+    fun showsFavoriteButton() {
         activityRule.launchActivity(null)
 
         Espresso.onView(withId(R.id.favorites))
@@ -43,7 +43,7 @@ class SearchRecipeActivityTest: AndroidJUnitRunner() {
     }
 
     @Test
-    fun dontShowAnyMessage() {
+    fun showsWelcomeMessage() {
         activityRule.launchActivity(null)
 
         Espresso.onView(withId(R.id.recipes_texterror))
@@ -53,8 +53,11 @@ class SearchRecipeActivityTest: AndroidJUnitRunner() {
             .check(ViewAssertions.matches(isDisplayed()))
     }
 
-    /*override fun newApplication(cl: ClassLoader?, className: String?, context: Context?): Application {
-       return super.newApplication(cl, TestApplication::class.java.name, context)
-   }*/
+    @Test
+    fun showsSearchButton() {
+        activityRule.launchActivity(null)
 
+        Espresso.onView(withId(R.id.search))
+            .check(ViewAssertions.matches(isDisplayed()))
+    }
 }
