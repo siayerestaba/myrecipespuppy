@@ -2,7 +2,6 @@ package com.iliaberlana.myrecipepuppy.framework.local
 
 import com.iliaberlana.myrecipepuppy.domain.entities.Recipe
 import com.iliaberlana.myrecipepuppy.domain.exception.DomainError
-import com.iliaberlana.myrecipepuppy.domain.exception.RoomError
 import com.iliaberlana.myrecipepuppy.framework.FavoriteRecipeRepositoryImpl
 import com.iliaberlana.myrecipepuppy.framework.local.model.RecipeDbEntity
 import io.kotlintest.assertions.arrow.either.shouldBeLeft
@@ -27,6 +26,8 @@ class FavoriteRecipeRepositoryTest {
             "http://www.recipepuppy.com/150"
         )
 
+        coEvery { recipeDao.insert(any()) }
+
         favoriteRecipeRepositoryImpl.saveFavorite(Recipe(
             "Recipe title",
             "onion, garlic",
@@ -34,7 +35,7 @@ class FavoriteRecipeRepositoryTest {
             "http://www.recipepuppy.com/150"
         ))
 
-        coVerify { recipeDao.insert(expected) }
+        coVerify { recipeDao.insert(any()) }
     }
 
     @Test
@@ -52,7 +53,7 @@ class FavoriteRecipeRepositoryTest {
 
         val actual = favoriteRecipeRepositoryImpl.getFavorites()
 
-        actual.shouldBeLeft(RoomError.CantGetRecipeFromDBException)
+        actual.shouldBeLeft(DomainError.CantGetRecipeFromDBException)
     }
 
     @Test
@@ -61,7 +62,7 @@ class FavoriteRecipeRepositoryTest {
 
         val actual = favoriteRecipeRepositoryImpl.getFavorites()
 
-        actual.shouldBeLeft(RoomError.NoExistFavoriteException)
+        actual.shouldBeLeft(DomainError.NoExistFavoriteException)
     }
 
     @Test

@@ -107,6 +107,25 @@ class SearchPresenterTest {
     }
 
     @Test
+    fun `should call showFavorite when call onRecipeClicked with same recipe`() = runBlocking {
+        val recipeUI =
+            RecipeUI(
+                "Recipe title",
+                "onion, garlic",
+                "https://via.placeholder.com/150",
+                "http://www.recipepuppy.com/150",
+                isFavorite = false,
+                hasLactose = false
+            )
+
+        presenter.onRecipeClicked(recipeUI)
+
+        verify {
+            presenter.recipeView?.showRecipe(recipeUI)
+        }
+    }
+
+    @Test
     fun `should execute saveFavorite with recipe when call addFavorite`() = runBlocking {
         val expected =
             Recipe(
@@ -138,7 +157,7 @@ class SearchPresenterTest {
     }
 
     @Test
-    fun `call showErrorCase with emptyListId when call searchRecipeWithText and returns NoRecipesException`() {
+    fun `call showErrorCase with emptyListId when call searchRecipeWithText and returns NoRecipesException`() = runBlocking {
         coEvery {
             searchRecipes(any(), any())
         } returns Either.left(DomainError.NoRecipesException)
@@ -151,7 +170,7 @@ class SearchPresenterTest {
     }
 
     @Test
-    fun `call showErrorCase with noInternetConectionErrorId when call searchRecipeWithText and returns NoInternetConnectionException`() {
+    fun `call showErrorCase with noInternetConectionErrorId when call searchRecipeWithText and returns NoInternetConnectionException`() = runBlocking {
         coEvery {
             searchRecipes(any(), any())
         } returns Either.left(DomainError.NoInternetConnectionException)
@@ -164,7 +183,7 @@ class SearchPresenterTest {
     }
 
     @Test
-    fun `call showErrorCase with unknownExceptionId when call searchRecipeWithText and returns UnknownException`() {
+    fun `call showErrorCase with unknownExceptionId when call searchRecipeWithText and returns UnknownException`() = runBlocking {
         coEvery {
             searchRecipes(any(), any())
         } returns Either.left(DomainError.UnknownException)

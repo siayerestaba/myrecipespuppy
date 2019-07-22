@@ -1,7 +1,7 @@
 package com.iliaberlana.myrecipepuppy.ui.favorites
 
 import com.iliaberlana.myrecipepuppy.R
-import com.iliaberlana.myrecipepuppy.domain.exception.RoomError
+import com.iliaberlana.myrecipepuppy.domain.exception.DomainError
 import com.iliaberlana.myrecipepuppy.ui.model.RecipeUI
 import com.iliaberlana.myrecipepuppy.usecases.ShowFavoriteRecipes
 import kotlinx.coroutines.Dispatchers
@@ -19,12 +19,14 @@ class FavoritesRecipesPresenter(
     }
 
     private fun getFavoriteRecipes() {
+        recipeView?.showLoading()
+
         GlobalScope.launch(Dispatchers.Main) {
             val resultRecipes = withContext(Dispatchers.IO) { showFavoriteRecipes() }
             resultRecipes.fold({
                 when (it) {
-                    RoomError.NoExistFavoriteException -> showErrorMessage(R.string.emptyFavorites)
-                    RoomError.CantGetRecipeFromDBException -> showErrorMessage(R.string.unknownException)
+                    DomainError.NoExistFavoriteException -> showErrorMessage(R.string.emptyFavorites)
+                    DomainError.CantGetRecipeFromDBException -> showErrorMessage(R.string.unknownException)
                 }
             }, { listRecipes ->
                 recipeView?.hideErrorCase()

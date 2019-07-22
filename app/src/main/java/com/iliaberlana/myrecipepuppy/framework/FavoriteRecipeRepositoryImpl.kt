@@ -3,7 +3,7 @@ package com.iliaberlana.myrecipepuppy.framework
 import arrow.core.Either
 import com.iliaberlana.myrecipepuppy.domain.data.FavoriteRecipeRepository
 import com.iliaberlana.myrecipepuppy.domain.entities.Recipe
-import com.iliaberlana.myrecipepuppy.domain.exception.RoomError
+import com.iliaberlana.myrecipepuppy.domain.exception.DomainError
 import com.iliaberlana.myrecipepuppy.framework.local.RecipeDao
 import com.iliaberlana.myrecipepuppy.framework.local.model.RecipeDbEntity
 import com.iliaberlana.myrecipepuppy.framework.local.model.toRecipe
@@ -12,15 +12,15 @@ class FavoriteRecipeRepositoryImpl(
     private val recipeDao: RecipeDao
 ) : FavoriteRecipeRepository {
 
-    override suspend fun getFavorites(): Either<RoomError, List<Recipe>> {
+    override suspend fun getFavorites(): Either<DomainError, List<Recipe>> {
         try {
             val listRecipeLocal = recipeDao.getAll()
 
-            if (listRecipeLocal.isEmpty()) return Either.left(RoomError.NoExistFavoriteException)
+            if (listRecipeLocal.isEmpty()) return Either.left(DomainError.NoExistFavoriteException)
 
             return Either.right(listRecipeLocal.map { it.toRecipe() })
         } catch (exception: Exception) {
-            return Either.left(RoomError.CantGetRecipeFromDBException)
+            return Either.left(DomainError.CantGetRecipeFromDBException)
         }
     }
 
@@ -33,6 +33,6 @@ class FavoriteRecipeRepositoryImpl(
     }
 
     private fun fromRecipeToRecipeDB(recipe: Recipe): RecipeDbEntity {
-        return RecipeDbEntity(null, recipe.name, recipe.ingredients, recipe.imageUrl, recipe.link)
+        return RecipeDbEntity(null, recipe.name, recipe.ingredients, recipe.imageUrl, recipe.link) // TODO cambiar al dto
     }
 }

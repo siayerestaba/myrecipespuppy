@@ -48,10 +48,10 @@ class SearchRecipesPresenter(
         val resultRecipes = withContext(Dispatchers.IO) { searchRecipes(searchText, page) }
         resultRecipes.fold({
             when (it) {
-                is DomainError.NoRecipesException -> showErrorMessage(R.string.emptyList)
-                is DomainError.NoMoreRecipesException -> showErrorMessage(R.string.noMoreRecipes)
-                is DomainError.NoInternetConnectionException -> showErrorMessage(R.string.noInternetConectionError)
-                is DomainError.UnknownException -> showErrorMessage(R.string.unknownException)
+                DomainError.NoRecipesException -> showErrorMessage(R.string.emptyList)
+                DomainError.NoMoreRecipesException -> showErrorMessage(R.string.noMoreRecipes)
+                DomainError.NoInternetConnectionException -> showErrorMessage(R.string.noInternetConectionError)
+                DomainError.UnknownException -> showErrorMessage(R.string.unknownException)
             }
         }, { listRecipes ->
             recipeView?.hideErrorCase()
