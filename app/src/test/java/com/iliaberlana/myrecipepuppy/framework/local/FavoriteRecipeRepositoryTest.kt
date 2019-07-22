@@ -6,9 +6,7 @@ import com.iliaberlana.myrecipepuppy.framework.FavoriteRecipeRepositoryImpl
 import com.iliaberlana.myrecipepuppy.framework.local.model.RecipeDbEntity
 import io.kotlintest.assertions.arrow.either.shouldBeLeft
 import io.kotlintest.assertions.arrow.either.shouldBeRight
-import io.mockk.coEvery
-import io.mockk.coVerify
-import io.mockk.mockk
+import io.mockk.*
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
@@ -26,7 +24,7 @@ class FavoriteRecipeRepositoryTest {
             "http://www.recipepuppy.com/150"
         )
 
-        coEvery { recipeDao.insert(expected) }.answers { nothing }
+        coEvery { recipeDao.insert(expected) } just Runs
 
         favoriteRecipeRepositoryImpl.saveFavorite(Recipe(
             "Recipe title",
