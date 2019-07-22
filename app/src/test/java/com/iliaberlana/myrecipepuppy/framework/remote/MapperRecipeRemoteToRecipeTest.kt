@@ -7,7 +7,7 @@ import com.iliaberlana.myrecipepuppy.framework.remote.model.RecipeRemote
 import com.iliaberlana.myrecipepuppy.framework.remote.model.toRecipe
 import org.junit.Test
 
-class MapperRecipeRemoteToRecipe {
+class MapperRecipeRemoteToRecipeTest {
 
     @Test
     fun `should return Recipe from RecipeRemote with same values`() {
@@ -15,7 +15,7 @@ class MapperRecipeRemoteToRecipe {
 
         val recipeRemote = RecipeRemote("Recipe title", "http://www.recipepuppy.com/150", "onion, garlic", "https://via.placeholder.com/150")
 
-        val actual = recipeRemote.toRecipe()
+        val actual = recipeRemote.toDomain()
 
         assertThat(expected).isEqualToWithGivenProperties(actual, Recipe::name, Recipe::ingredients, Recipe::imageUrl, Recipe::link)
     }

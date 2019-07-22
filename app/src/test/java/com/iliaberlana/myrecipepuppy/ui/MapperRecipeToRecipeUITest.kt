@@ -6,7 +6,7 @@ import com.iliaberlana.myrecipepuppy.domain.entities.Recipe
 import com.iliaberlana.myrecipepuppy.ui.model.RecipeUI
 import org.junit.Test
 
-class MapperRecipeToRecipeUI {
+class MapperRecipeToRecipeUITest {
 
     @Test
     fun `should return Recipe from RecipeUI with same values`() {
