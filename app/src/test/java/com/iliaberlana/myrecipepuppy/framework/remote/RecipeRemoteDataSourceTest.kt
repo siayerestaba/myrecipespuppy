@@ -14,7 +14,6 @@ import org.junit.Test
 class RecipeRemoteDataSourceTest {
     private val mockWebServer = MockWebServer()
     private val recipeRemoteDataSource = RecipeRemoteDataSource(NetworkFactory())
-    private lateinit var recipeClient : RecipeClient
 
     @Before
     fun setUp() {

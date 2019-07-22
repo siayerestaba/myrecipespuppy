@@ -24,7 +24,7 @@ import org.koin.core.context.startKoin
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
-class RecipePuppyApp : Application() {
+open class RecipePuppyApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
@@ -38,6 +38,10 @@ class RecipePuppyApp : Application() {
 
         }
     }
+
+    var apiUrlTest: String = "http://www.recipepuppy.com"
+    open fun getApiUrl(): String = apiUrlTest
+    open fun setApiUrl(apiUrl: String) { apiUrlTest = apiUrl}
 
     private val appModule = module {
         single {
