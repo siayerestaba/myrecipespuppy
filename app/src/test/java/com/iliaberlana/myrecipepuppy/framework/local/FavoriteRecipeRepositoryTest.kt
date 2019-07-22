@@ -16,17 +16,17 @@ class FavoriteRecipeRepositoryTest {
     private val recipeDao = mockk<RecipeDao>()
     private val favoriteRecipeRepositoryImpl = FavoriteRecipeRepositoryImpl(recipeDao)
 
-    //@Test
+    @Test
     fun `call RecipeDao_insert when call saveFavorite`() = runBlocking {
         val expected = RecipeDbEntity(
-            1,
+            null,
             "Recipe title",
             "onion, garlic",
             "https://via.placeholder.com/150",
             "http://www.recipepuppy.com/150"
         )
 
-        coEvery { recipeDao.insert(any()) }
+        coEvery { recipeDao.insert(expected) }.answers { nothing }
 
         favoriteRecipeRepositoryImpl.saveFavorite(Recipe(
             "Recipe title",
@@ -35,7 +35,7 @@ class FavoriteRecipeRepositoryTest {
             "http://www.recipepuppy.com/150"
         ))
 
-        coVerify { recipeDao.insert(any()) }
+        coVerify { recipeDao.insert(expected) }
     }
 
     @Test
