@@ -1,6 +1,7 @@
 package com.iliaberlana.myrecipepuppy
 
 import android.app.Application
+import android.content.Context
 import androidx.room.Room
 import com.iliaberlana.myrecipepuppy.domain.data.FavoriteRecipeRepository
 import com.iliaberlana.myrecipepuppy.domain.data.RecipeRepository
@@ -39,16 +40,18 @@ open class RecipePuppyApp : Application() {
         }
     }
 
-    var apiUrlTest: String = "http://www.recipepuppy.com"
-    open fun getApiUrl(): String = apiUrlTest
-    open fun setApiUrl(apiUrl: String) { apiUrlTest = apiUrl}
+    private var apiUrlApp: String = "http://www.recipepuppy.com"
+    open fun getApiUrl(): String = apiUrlApp
+    open fun setApiUrl(apiUrl: String) {
+        this.apiUrlApp = apiUrl
+    }
 
     private val appModule = module {
         single {
             Room.databaseBuilder(androidApplication(), RecipeDatabase::class.java, "recipe-db").build()
         }
         single { NetworkFactory() }
-        single { RecipeRemoteDataSource(get()) }
+        single { RecipeRemoteDataSource(get(), getApiUrl()) }
 
         single<RecipeRepository> { RecipeRepositoryImpl(get()) }
         single<FavoriteRecipeRepository> { FavoriteRecipeRepositoryImpl(get<RecipeDatabase>().recipeDao()) }

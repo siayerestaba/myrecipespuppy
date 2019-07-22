@@ -1,36 +1,23 @@
 package com.iliaberlana.myrecipepuppy
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import androidx.test.rule.ActivityTestRule
 import assertk.assertions.isEqualToWithGivenProperties
-import com.iliaberlana.myrecipepuppy.domain.entities.Recipe
 import com.iliaberlana.myrecipepuppy.framework.local.RecipeDao
 import com.iliaberlana.myrecipepuppy.framework.local.RecipeDatabase
 import com.iliaberlana.myrecipepuppy.framework.local.model.RecipeDbEntity
-import com.iliaberlana.myrecipepuppy.ui.search.SearchRecipesActivity
 import kotlinx.coroutines.runBlocking
-import org.hamcrest.CoreMatchers.equalTo
 import org.junit.After
-import org.junit.Assert.assertThat
 import org.junit.Assert.assertTrue
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 @LargeTest
 class RecipeDaoTest {
-
-//    @get:Rule
-//    val activityRule = ActivityTestRule(SearchRecipesActivity::class.java, false, false)
-
-    @get:Rule
-    var instantTaskExecutorRule = InstantTaskExecutorRule()
 
     private lateinit var recipeDatabase: RecipeDatabase
     private lateinit var recipeDao: RecipeDao

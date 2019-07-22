@@ -120,7 +120,6 @@ class NetworkFactoryTest {
     }
 
     @After
-    @Throws(Exception::class)
     fun tearDown() {
         mockWebServer.shutdown()
     }

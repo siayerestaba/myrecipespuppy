@@ -11,7 +11,7 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.iliaberlana.myrecipepuppy.MockTestRunner"
     }
     buildTypes {
         release {
@@ -21,6 +21,11 @@ android {
     }
     testOptions {
         unitTests.returnDefaultValues = true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -89,4 +94,5 @@ dependencies {
     androidTestImplementation "androidx.arch.core:core-testing:2.0.1"
     androidTestImplementation "com.squareup.okhttp3:mockwebserver:4.0.0"
     androidTestImplementation 'com.willowtreeapps.assertk:assertk-jvm:0.18'
+    androidTestImplementation ("io.kotlintest:kotlintest-assertions-arrow:3.3.3") { exclude group: "com.github" }
 }
