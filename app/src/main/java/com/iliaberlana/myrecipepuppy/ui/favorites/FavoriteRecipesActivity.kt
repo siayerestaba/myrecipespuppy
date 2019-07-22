@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.iliaberlana.myrecipepuppy.R
 import com.iliaberlana.myrecipepuppy.ui.commons.toast
+import com.iliaberlana.myrecipepuppy.ui.detail.RecipeDetailActivity
 import com.iliaberlana.myrecipepuppy.ui.model.RecipeUI
 import kotlinx.android.synthetic.main.recipe_list.*
 import kotlinx.android.synthetic.main.recycler_withprogressbar_andtext.*
@@ -49,6 +50,10 @@ class FavoriteRecipesActivity : AppCompatActivity(), FavoriteRecipesView
 
     override fun listFavorites(favorites: List<RecipeUI>) {
         adapter.addAll(favorites)
+    }
+
+    override fun showRecipe(recipeUI: RecipeUI) {
+        RecipeDetailActivity.open(activity = this, recipeName = recipeUI.name, recipeLink = recipeUI.link)
     }
 
     override fun hideLoading() {

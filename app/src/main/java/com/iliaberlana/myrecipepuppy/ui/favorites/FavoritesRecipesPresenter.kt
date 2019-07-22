@@ -37,6 +37,8 @@ class FavoritesRecipesPresenter(
         }
     }
 
+    fun onRecipeClicked(recipeUI: RecipeUI) = recipeView?.showRecipe(recipeUI)
+
     private fun showErrorMessage(stringIdError: Int) {
         recipeView?.showErrorCase(stringIdError)
     }

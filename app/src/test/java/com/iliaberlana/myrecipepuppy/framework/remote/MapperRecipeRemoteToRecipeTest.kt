@@ -4,7 +4,6 @@ import assertk.assertThat
 import assertk.assertions.isEqualToWithGivenProperties
 import com.iliaberlana.myrecipepuppy.domain.entities.Recipe
 import com.iliaberlana.myrecipepuppy.framework.remote.model.RecipeRemote
-import com.iliaberlana.myrecipepuppy.framework.remote.model.toRecipe
 import org.junit.Test
 
 class MapperRecipeRemoteToRecipeTest {

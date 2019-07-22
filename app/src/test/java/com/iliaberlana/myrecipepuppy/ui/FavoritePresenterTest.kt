@@ -86,6 +86,25 @@ class FavoritePresenterTest {
     }
 
     @Test
+    fun `should call showFavorite when call onRecipeClicked with same recipe`() = runBlocking {
+        val recipeUI =
+            RecipeUI(
+                "Recipe title",
+                "onion, garlic",
+                "https://via.placeholder.com/150",
+                "http://www.recipepuppy.com/150",
+                isFavorite = false,
+                hasLactose = false
+            )
+
+        presenter.onRecipeClicked(recipeUI)
+
+        verify {
+            presenter.recipeView?.showRecipe(recipeUI)
+        }
+    }
+
+    @Test
     fun `call showErrorCase with emptyFavoritestId when call renderFavoriteRecipes and returns NoExistFavoriteException`() = runBlocking {
         coEvery {
             showFavoriteRecipes()

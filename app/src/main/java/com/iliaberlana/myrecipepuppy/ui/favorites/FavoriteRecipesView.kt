@@ -5,4 +5,5 @@ import com.iliaberlana.myrecipepuppy.ui.model.RecipeUI
 
 interface FavoriteRecipesView : BaseView {
     fun listFavorites(favorites: List<RecipeUI>)
+    fun showRecipe(recipeUI: RecipeUI)
 }

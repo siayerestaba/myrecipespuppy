@@ -24,5 +24,7 @@ class FavoriteRecipesViewHolder(
 
         containerView.recipe_addfavorite.visibility = View.GONE
 //        containerView.recipe_addfavorite.setOnClickListener { presenter.addFavorite(favorite) }
+
+        containerView.setOnClickListener { presenter.onRecipeClicked(favorite) }
     }
 }
