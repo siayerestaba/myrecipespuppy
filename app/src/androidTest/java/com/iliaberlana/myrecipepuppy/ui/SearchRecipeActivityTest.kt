@@ -1,4 +1,4 @@
-package com.iliaberlana.myrecipepuppy
+package com.iliaberlana.myrecipepuppy.ui
 
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
@@ -9,10 +9,15 @@ import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.filters.LargeTest
 import androidx.test.rule.ActivityTestRule
+import com.iliaberlana.myrecipepuppy.R
+import com.iliaberlana.myrecipepuppy.TestApplication
 import com.iliaberlana.myrecipepuppy.ui.detail.RecipeDetailActivity
 import com.iliaberlana.myrecipepuppy.ui.favorites.FavoriteRecipesActivity
 import com.iliaberlana.myrecipepuppy.ui.search.SearchRecipeViewHolder
 import com.iliaberlana.myrecipepuppy.ui.search.SearchRecipesActivity
+import com.iliaberlana.myrecipepuppy.util.RecyclerViewMatcher
+import com.iliaberlana.myrecipepuppy.util.clickChildViewWithId
+import com.iliaberlana.myrecipepuppy.util.waitUntilActivityVisible
 import io.kotlintest.shouldBe
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -186,7 +191,9 @@ class SearchRecipeActivityTest {
             )
 
 
-        onView(RecyclerViewMatcher(R.id.recipes_recyclerview).atPositionOnView(0, R.id.recipe_addfavorite))
+        onView(RecyclerViewMatcher(R.id.recipes_recyclerview).atPositionOnView(0,
+            R.id.recipe_addfavorite
+        ))
             .check(matches(not(isDisplayed())))
     }
 

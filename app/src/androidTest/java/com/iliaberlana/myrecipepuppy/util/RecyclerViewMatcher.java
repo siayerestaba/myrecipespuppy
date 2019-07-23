@@ -1,4 +1,4 @@
-package com.iliaberlana.myrecipepuppy;
+package com.iliaberlana.myrecipepuppy.util;
 
 import android.content.res.Resources;
 import android.view.View;

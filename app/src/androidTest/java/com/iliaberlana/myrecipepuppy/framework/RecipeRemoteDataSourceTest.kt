@@ -1,6 +1,7 @@
-package com.iliaberlana.myrecipepuppy
+package com.iliaberlana.myrecipepuppy.framework
 
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
+import com.iliaberlana.myrecipepuppy.TestApplication
 import com.iliaberlana.myrecipepuppy.domain.exception.DomainError
 import com.iliaberlana.myrecipepuppy.framework.remote.NetworkFactory
 import com.iliaberlana.myrecipepuppy.framework.remote.RecipeRemoteDataSource

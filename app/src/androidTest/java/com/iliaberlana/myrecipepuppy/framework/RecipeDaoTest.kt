@@ -1,4 +1,4 @@
-package com.iliaberlana.myrecipepuppy
+package com.iliaberlana.myrecipepuppy.framework
 
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider

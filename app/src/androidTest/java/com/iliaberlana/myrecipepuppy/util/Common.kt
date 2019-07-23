@@ -1,14 +1,12 @@
-package com.iliaberlana.myrecipepuppy
+package com.iliaberlana.myrecipepuppy.util
 
 import android.app.Activity
 import android.app.ActivityManager
 import android.content.Context
 import android.view.View
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
-import androidx.test.espresso.ViewAssertion
 import org.hamcrest.Matcher
 
 
