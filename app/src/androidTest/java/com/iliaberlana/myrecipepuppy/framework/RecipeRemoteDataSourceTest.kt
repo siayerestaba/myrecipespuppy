@@ -74,7 +74,7 @@ class RecipeRemoteDataSourceTest {
     }
 
     @Test
-    fun shouldReturnListWith10Recipes() = runBlocking {
+    fun shouldReturnListWith4Recipes() = runBlocking {
         val response = MockResponse()
             .addHeader("Content-Type", "application/json; charset=utf-8")
             .addHeader("Cache-Control", "no-cache")

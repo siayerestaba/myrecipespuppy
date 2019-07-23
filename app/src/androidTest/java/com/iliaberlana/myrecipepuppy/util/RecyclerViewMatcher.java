@@ -8,7 +8,7 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
 /**
- * Created by dannyroa on 5/10/15.
+ * https://github.com/dannyroa/espresso-samples
  */
 public class RecyclerViewMatcher {
     private final int recyclerViewId;
@@ -22,7 +22,6 @@ public class RecyclerViewMatcher {
     }
 
     public Matcher<View> atPositionOnView(final int position, final int targetViewId) {
-
         return new TypeSafeMatcher<View>() {
             Resources resources = null;
             View childView;

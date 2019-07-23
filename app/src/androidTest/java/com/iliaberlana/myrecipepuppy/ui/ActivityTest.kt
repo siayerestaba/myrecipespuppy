@@ -30,7 +30,7 @@ import org.junit.Test
 
 
 @LargeTest
-class SearchRecipeActivityTest {
+class ActivityTest {
     private val mockWebServer = MockWebServer()
 
     @get:Rule
@@ -222,6 +222,7 @@ class SearchRecipeActivityTest {
 
         waitUntilActivityVisible<RecipeDetailActivity>()
         onView(withId(R.id.detail_frame)).check(matches(isDisplayed()))
+        onView(withId(R.id.webPage)).check(matches(isDisplayed()))
     }
 
     @Test

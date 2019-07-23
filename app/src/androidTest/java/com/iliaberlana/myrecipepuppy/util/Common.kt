@@ -42,9 +42,6 @@ fun clickChildViewWithId(id: Int): ViewAction = object : ViewAction {
         }
     }
 
-fun withItemContent(expectedText: String): Matcher<Any> {
-    return withItemContent(expectedText)
-}
 
 const val TIMEOUT = 5000L
 const val CONDITION_CHECK_INTERVAL = 100L
