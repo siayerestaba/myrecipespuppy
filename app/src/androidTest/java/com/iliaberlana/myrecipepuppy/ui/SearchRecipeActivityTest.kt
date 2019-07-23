@@ -21,6 +21,7 @@ import com.iliaberlana.myrecipepuppy.util.waitUntilActivityVisible
 import io.kotlintest.shouldBe
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
+import org.hamcrest.CoreMatchers
 import org.hamcrest.CoreMatchers.not
 import org.junit.After
 import org.junit.Before
@@ -123,6 +124,8 @@ class SearchRecipeActivityTest {
 
         onView(withText(R.string.emptyList))
             .check(matches(isDisplayed()))
+
+        onView(withId(R.id.recipes_progressbar)).check(matches(not(isDisplayed())))
     }
 
     @Test
@@ -153,6 +156,8 @@ class SearchRecipeActivityTest {
 
         onView(withText(R.string.emptyList))
             .check(matches(isDisplayed()))
+
+        onView(withId(R.id.recipes_progressbar)).check(matches(not(isDisplayed())))
     }
 
     @Test
@@ -169,8 +174,9 @@ class SearchRecipeActivityTest {
         onView(withId(R.id.recipes_recyclerview)).check(matches(isDisplayed()))
 
         val recyclerView = activityRule.activity.findViewById<RecyclerView>(R.id.recipes_recyclerview)
-        val itemCount = recyclerView.adapter?.itemCount
-        itemCount.shouldBe(4)
+        recyclerView.adapter?.itemCount.shouldBe(4)
+
+        onView(withId(R.id.recipes_progressbar)).check(matches(not(isDisplayed())))
     }
 
     @Test
@@ -191,9 +197,12 @@ class SearchRecipeActivityTest {
             )
 
 
-        onView(RecyclerViewMatcher(R.id.recipes_recyclerview).atPositionOnView(0,
-            R.id.recipe_addfavorite
-        ))
+        onView(
+            RecyclerViewMatcher(R.id.recipes_recyclerview).atPositionOnView(
+                0,
+                R.id.recipe_addfavorite
+            )
+        )
             .check(matches(not(isDisplayed())))
     }
 

@@ -35,7 +35,7 @@ open class RecipePuppyApp : Application() {
         startKoin {
             androidLogger()
             androidContext(this@RecipePuppyApp)
-            modules(appModule)
+            modules(listOf(dbModule, appModule))
 
         }
     }
@@ -46,10 +46,13 @@ open class RecipePuppyApp : Application() {
         this.apiUrlApp = apiUrl
     }
 
-    private val appModule = module {
+    private val dbModule = module {
         single {
             Room.databaseBuilder(androidApplication(), RecipeDatabase::class.java, "recipe-db").build()
         }
+    }
+
+    private val appModule = module {
         single { NetworkFactory() }
         single { RecipeRemoteDataSource(get(), getApiUrl()) }
 
