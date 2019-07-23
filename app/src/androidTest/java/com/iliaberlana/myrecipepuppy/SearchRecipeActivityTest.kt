@@ -67,6 +67,30 @@ class SearchRecipeActivityTest {
     }
 
     @Test
+    fun showsHasLactoseIfAnIngredientIsMilkOrCheese() {
+        mockWebServer.enqueue(happypath())
+
+        activityRule.launchActivity(null)
+
+        onView(withId(R.id.search)).perform(click())
+        onView(withId(androidx.appcompat.R.id.search_src_text)).perform(typeText("eggs"), pressImeActionButton())
+
+        Thread.sleep(2000)
+
+        onView(
+            RecyclerViewMatcher(R.id.recipes_recyclerview)
+                .atPositionOnView(0, R.id.recipe_haslactose)
+        )
+            .check(matches(not(isDisplayed())))
+
+        onView(
+            RecyclerViewMatcher(R.id.recipes_recyclerview)
+                .atPositionOnView(1, R.id.recipe_haslactose)
+        )
+            .check(matches(isDisplayed()))
+    }
+
+    @Test
     fun dontNeedPressImeActionButtonForDoTheSearch() {
         val response = MockResponse()
             .addHeader("Content-Type", "application/json; charset=utf-8")
@@ -161,10 +185,8 @@ class SearchRecipeActivityTest {
                     (0, clickChildViewWithId(R.id.recipe_addfavorite))
             )
 
-        onView(
-            RecyclerViewMatcher(R.id.recipes_recyclerview)
-                .atPositionOnView(1, R.id.recipe_addfavorite)
-        )
+
+        onView(RecyclerViewMatcher(R.id.recipes_recyclerview).atPositionOnView(0, R.id.recipe_addfavorite))
             .check(matches(not(isDisplayed())))
     }
 
@@ -277,7 +299,7 @@ class SearchRecipeActivityTest {
                     "\t}, {\n" +
                     "\t\t\"title\": \"Steamed Mussels I\",\n" +
                     "\t\t\"href\": \"http:\\/\\/allrecipes.com\\/Recipe\\/Steamed-Mussels-I\\/Detail.aspx\",\n" +
-                    "\t\t\"ingredients\": \"garlic, mussels, onions\",\n" +
+                    "\t\t\"ingredients\": \"garlic, milk, mussels, onions\",\n" +
                     "\t\t\"thumbnail\": \"http:\\/\\/img.recipepuppy.com\\/29318.jpg\"\n" +
                     "\t}, {\n" +
                     "\t\t\"title\": \"Braised Beef and Onions\",\n" +
@@ -287,7 +309,7 @@ class SearchRecipeActivityTest {
                     "\t}, {\n" +
                     "\t\t\"title\": \"\\nChile Con Queso (Spicy Cheese Dip) Recipe\\n\\n\",\n" +
                     "\t\t\"href\": \"http:\\/\\/cookeatshare.com\\/recipes\\/chile-con-queso-spicy-cheese-dip-2037\",\n" +
-                    "\t\t\"ingredients\": \"salsa, onions, garlic\",\n" +
+                    "\t\t\"ingredients\": \"salsa, cheese, onions, garlic\",\n" +
                     "\t\t\"thumbnail\": \"http:\\/\\/img.recipepuppy.com\\/823756.jpg\"\n" +
                     "\t}]\n" +
                     "}"
