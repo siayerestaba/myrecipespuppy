@@ -10,6 +10,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.iliaberlana.myrecipepuppy.R
+import com.iliaberlana.myrecipepuppy.ui.commons.logDebug
 import com.iliaberlana.myrecipepuppy.ui.commons.toast
 import com.iliaberlana.myrecipepuppy.ui.detail.RecipeDetailActivity
 import com.iliaberlana.myrecipepuppy.ui.favorites.FavoriteRecipesActivity
@@ -52,8 +53,8 @@ class SearchRecipesActivity : AppCompatActivity(), SearchRecipeView {
         recipes_recyclerview.layoutManager = linearLayoutManager
 
         recipes_recyclerview.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
 
                 val totalItemCount = recyclerView.layoutManager?.itemCount
                 if (!presenter.isLoadingData && totalItemCount == lastVisibleItemPosition + 1) {

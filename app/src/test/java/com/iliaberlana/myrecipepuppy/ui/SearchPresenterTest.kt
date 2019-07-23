@@ -16,6 +16,7 @@ import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.After
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
@@ -53,6 +54,8 @@ class SearchPresenterTest {
             searchRecipes("onion", 1)
             presenter.recipeView?.hideLoading()
         }
+
+        Assert.assertFalse(presenter.isLoadingData)
     }
 
     @Test
