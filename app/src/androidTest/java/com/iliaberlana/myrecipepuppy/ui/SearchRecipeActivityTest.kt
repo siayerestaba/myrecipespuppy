@@ -249,7 +249,7 @@ class SearchRecipeActivityTest {
     }
 
     @Test
-    fun shouldCallNextPageWhenScrollInBottom() { // TODO NO VA!
+    fun shouldCallNextPageWhenScrollInBottom() {
         mockWebServer.enqueue(happypath())
 
         activityRule.launchActivity(null)

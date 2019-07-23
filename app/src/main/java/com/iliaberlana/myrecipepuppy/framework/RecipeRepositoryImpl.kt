@@ -23,8 +23,4 @@ class RecipeRepositoryImpl(
             return Either.left(DomainError.UnknownException)
         }
     }
-
-    override fun showRecipe(recipe: Recipe) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 }

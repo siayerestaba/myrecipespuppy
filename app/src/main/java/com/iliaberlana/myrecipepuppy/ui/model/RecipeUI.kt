@@ -17,7 +17,7 @@ data class RecipeUI (
         fun fromDomain(recipe: Recipe): RecipeUI {
             val hasLactose = recipe.ingredients.contains("milk") || recipe.ingredients.contains("cheese")
 
-            return RecipeUI(recipe.name.cleanHexCaracters(), recipe.ingredients, recipe.imageUrl, recipe.link, false, hasLactose) // TODO Mirar el mapper con lo del favorito
+            return RecipeUI(recipe.name.cleanHexCaracters(), recipe.ingredients, recipe.imageUrl, recipe.link, false, hasLactose)
         }
     }
 }

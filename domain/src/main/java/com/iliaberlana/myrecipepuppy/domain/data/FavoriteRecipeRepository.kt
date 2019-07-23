@@ -8,6 +8,4 @@ interface FavoriteRecipeRepository {
     suspend fun getFavorites(): Either<DomainError, List<Recipe>>
 
     suspend fun saveFavorite(recipe: Recipe)
-
-    suspend fun deleteFavorite(recipe: Recipe)
 }

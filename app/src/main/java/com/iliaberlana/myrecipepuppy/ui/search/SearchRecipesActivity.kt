@@ -35,7 +35,6 @@ class SearchRecipesActivity : AppCompatActivity(), SearchRecipeView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.recycler_withprogressbar_andtext)
-        // TODO Comprobar si hay internet, si no hay, ir a la pantalla de Favoritos
 
         presenter.recipeView = this
         initializeRecyclerView()

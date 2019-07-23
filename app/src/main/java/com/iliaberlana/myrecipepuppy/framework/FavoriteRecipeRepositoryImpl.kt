@@ -26,8 +26,4 @@ class FavoriteRecipeRepositoryImpl(
     override suspend fun saveFavorite(recipe: Recipe) {
         recipeDao.insert(RecipeDbEntity.fromDomain(recipe))
     }
-
-    override suspend fun deleteFavorite(recipe: Recipe) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 }
