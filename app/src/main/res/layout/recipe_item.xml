@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
                                     xmlns:app="http://schemas.android.com/apk/res-auto"
+                                   xmlns:tools="http://schemas.android.com/tools"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     app:cardUseCompatPadding="true"
@@ -29,7 +30,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_toStartOf="@id/recipe_addfavorite"
-                    style="@style/recipe_name"/>
+                    tools:text="Title of recipe"
+                    style="@style/title"/>
 
             <ImageView
                     android:id="@+id/recipe_addfavorite"
@@ -44,8 +46,9 @@
                     android:id="@+id/recipe_ingredients"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    tools:text="onions, garlic, milk"
                     android:layout_below="@+id/recipe_name"
-                    style="@style/recipe_ingredients"/>
+                    style="@style/subtitle"/>
         </RelativeLayout>
 
         <ImageView

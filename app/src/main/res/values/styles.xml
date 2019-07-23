@@ -14,21 +14,21 @@
     <style name="RecipePuppyTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
     <style name="RecipePuppyTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
-    <style name="recipe_name">
+    <style name="title">
         <item name="android:textSize">@dimen/text_16sp</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textAlignment">center</item>
     </style>
 
-    <style name="recipe_ingredients">
+    <style name="subtitle">
         <item name="android:textSize">@dimen/text_12sp</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textStyle">normal</item>
         <item name="android:textAlignment">textStart</item>
     </style>
 
-    <style name="errorMessage">
+    <style name="h1">
         <item name="android:textSize">@dimen/text_30sp</item>
         <item name="android:textColor">@color/colorPrimaryDark</item>
         <item name="android:textStyle">bold</item>
